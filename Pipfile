@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 django-rest = "*"
+pipx = "*"
+openlibrary-client = {path = "./openlibrary-client"}
 
 [dev-packages]
 
