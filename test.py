@@ -3,13 +3,12 @@ from olclient.openlibrary import OpenLibrary
 def getBook():
     op = OpenLibrary()
     
+    key = input()
+    value = op.Author.search(key)
+    print(value[0]['key'])
+    author = op.Author(olid=value[0]['key'])
+    print(author)
     
-    value = op.Work.get('OL509183W')
-    print(value)
-    dict = value.json()
-    
-    print("\n")
-    print(dict['title'])
         
 if __name__ == '__main__':
     getBook()
