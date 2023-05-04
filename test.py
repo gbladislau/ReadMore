@@ -5,9 +5,8 @@ def getBook():
     
     key = input()
     value = op.Author.search(key)
-    print(value[0]['key'])
-    author = op.Author(olid=value[0]['key'])
-    print(author)
+    print(value)
+    
     
         
 if __name__ == '__main__':
