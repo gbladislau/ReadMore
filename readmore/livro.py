@@ -1,7 +1,7 @@
 from enum import Enum
 import json
-from olclient.openlibrary import OpenLibrary
 from requests import Response
+import pandas as pd
 
 class User_reference(Enum):
     nenhuma = 0
@@ -17,20 +17,24 @@ class Livro:
         self.codigo_olid = codigo_opl
         
         try:
-            self.json_opl = OpenLibrary.Work(codigo_opl)
+            self.json_opl = self.get_from_code(codigo_opl)
         except:
-            print('ERRO: busca pelo livro não retornou resultados')
+            print('ERRO: busca pelo livro com o codigo OPL não retornou resultados')
         
         self.referencia = referencia
+        
+
 
 if __name__ == '__main__':
-    r = OpenLibrary.get_ol_response(self=OpenLibrary(),path='/search.json?q='+input().replace(' ','+').removesuffix('\n'))
+    
+    r =                                      # path='/search.json?q='+input().replace(' ','+').removesuffix('\n')
     print(r.json())
     try:
         data = r.json()
         olid = OpenLibrary._extract_olid_from_url(
             data.pop('key', ''), url_type='works'
         )
+        print(olid)
     except:
         raise Exception(f"Unable to get Author with olid: {olid}")
     

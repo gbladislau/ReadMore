@@ -1,5 +1,3 @@
-
-
 class Usuario:
     
     nome_do_usuario = str

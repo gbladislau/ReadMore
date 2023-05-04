@@ -8,6 +8,7 @@ django = "*"
 django-rest = "*"
 pipx = "*"
 openlibrary-client = "*"
+pandas = "*"
 
 [dev-packages]
 
