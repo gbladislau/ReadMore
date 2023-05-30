@@ -6,8 +6,6 @@ name = "pypi"
 [packages]
 django = "*"
 django-rest = "*"
-pipx = "*"
-openlibrary-client = "*"
 pandas = "*"
 
 [dev-packages]
