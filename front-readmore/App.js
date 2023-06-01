@@ -1,21 +1,48 @@
 import { StatusBar } from 'expo-status-bar';
-import { SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
 export default function App() {
     return(
       <SafeAreaView style={styles.container}>
-          <SafeAreaView style={styles.titleRectangle}>
+        <LinearGradient //Gradiente ou Degradê de Azul
+          colors={['#4ADEDE', '#2938C4']}
+          style={styles.background}
+        />
+          <View style={styles.titleRectangle} 
+            //Título do APP, mudar depois para logo
+          >
             <Text style={styles.titleText}>READ MORE</Text>
-          </SafeAreaView>
+          </View>
+
+          <View>
+            <Button title='Já Possuo Cadastro'>
+
+            </Button>
+          </View>
+            
+          <View>
+            <Button title='Fazer meu Cadastro'>
+
+            </Button>
+          </View>
+
           <StatusBar style='auto'/>
       </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
+  background:{
+    position: 'absolute',
+    width: '100%',
+    height:'100%',
+  },
+
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    flex: 1,
   },
 
   titleRectangle: {
@@ -25,18 +52,17 @@ const styles = StyleSheet.create({
     width: 400,
     height: 82,
     top: 60,
-    backgroundColor:'#4577D8',
+    backgroundColor:'#2938C4',
     borderRadius: 99,
   },
 
   titleText: {
     position: 'absolute',
 
-    //fontFamily: 'Arial',
+    //fontFamily: 'Manjari',
     fontStyle: 'normal',
-    fontWeight: 500,
     fontSize: 48,
 
-    color: 'black',
+    color: 'white',
   }
 });
