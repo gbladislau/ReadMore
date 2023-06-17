@@ -1,6 +1,6 @@
-import { SafeAreaView, StyleSheet, View } from "react-native/types";
+import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 
-const LoginPage = () =>{
+export default function LoginPage (){
     return(
         <SafeAreaView>
             <View style={styles.container}>
@@ -10,7 +10,7 @@ const LoginPage = () =>{
         </SafeAreaView>
     );
 }
-export default LoginPage;
+
 
 const styles = StyleSheet.create({
     page:{
