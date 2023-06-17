@@ -1,0 +1,12 @@
+FROM node:18.16
+
+WORKDIR /
+
+EXPOSE 19000
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm install
+
+CMD [ "npx", "expo", "start" ]

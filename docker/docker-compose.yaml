@@ -1,0 +1,18 @@
+# version: "2.16"
+services:
+  back:
+    build: "./back_readmore"
+    container_name: Django-back
+    volumes:
+      - ./:./
+    ports:
+      - 8000:8000
+  front:
+    build: "./front-readmore"
+    container_name: Node-front
+    volumes:
+      - ./:./
+    ports:
+      - 19000:19000
+    depends_on:
+      - back
