@@ -7,8 +7,7 @@ COPY Pipfile.lock .
 
 RUN pip install pipenv==2022.10.25
 RUN pipenv install --deploy --ignore-pipfile 
-# RUN pipenv shell
 
-# CMD [ "pipenv", "shell"]
+COPY . .
 
-CMD ["pipenv","run" ,"python3", "manage.py", "runserver" ]
+CMD ["pipenv","run" ,"python3", "manage.py", "runserver", "0.0.0.0:8000", "--noreload"]
