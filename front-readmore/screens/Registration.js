@@ -2,11 +2,11 @@ import { useState } from "react";
 import { Text,TextInput, View, StyleSheet, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useNavigation } from '@react-navigation/native';
-
+import InputBox from "../components/InputBox";
 
 export default function Registration (){
 
-    const navigation = useNavigation()
+    const navigation = useNavigation();
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -20,21 +20,21 @@ export default function Registration (){
                                password:password })
     };
 
-    const postCadastro = async () => {
-        try {
-            await fetch(
-                'http://128.0.1:8000/', requestOptions)
-                .then(response => {
-                    response.json()
-                        .then(data => {
-                            Alert.alert("Post created at : ", 
-                            data.createdAt);
-                        });
-                })
-                
+    const postCadastro = async () => {t
+        try{
+            var response = await fetch('http://128.0.1:8000/', requestOptions);
+            if (response.ok) {
+                console.log(`Sucesso na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/' HTTP ${response.status}`);
+                var responseJSON = await response.json(); 
+                navigation.navigate("UserHomeScreen");
+            }
+            else {
+                console.log(`Falha na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/' HTTP ${response.status}`);
+            }
+
         }
-        catch (error) {
-            console.error(error);
+        catch (erro){
+            console.log(`Erro no ${requestOptions["method"]} em http://128.0.1:8000/`);
         }
     }
 
@@ -56,15 +56,7 @@ export default function Registration (){
                     />
                 </View>
 
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="Email"
-                        placeholderTextColor="#003f5c"
-                        cursorColor='black'
-                        onChangeText={(email) => setEmail(email)}
-                    />
-                </View>
+                <InputBox inputName="email" inputSet={setEmail}/>
 
                 <View style={styles.inputView}>
                     <TextInput

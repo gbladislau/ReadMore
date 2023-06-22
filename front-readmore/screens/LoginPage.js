@@ -1,3 +1,4 @@
+
 import { SafeAreaView, StyleSheet, View, Text } from "react-native";
 
 export default function LoginPage (){
