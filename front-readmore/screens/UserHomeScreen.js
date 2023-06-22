@@ -3,30 +3,12 @@ import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import{Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 
-export default function HomeScreen() {
+export default function UserHomeScreen() {
   const navigation = useNavigation()
   return (
-    <SafeAreaView style={styles.container}>
-    <LinearGradient //Gradiente ou Degradê de Azul
-      colors={['#4ADEDE', '#2938C4']}
-      style={styles.background}
-    />
-      <View style={styles.titleRectangle} 
-        //Título do APP, mudar depois para logo
-      >
-        <Text style={styles.titleText}>READ MORE</Text>
-      </View>
-
-      <View style={styles.btn_div}>
-        <Button title='Já Possuo Cadastro' style={styles.button} onPress={()=> navigation.navigate('Login')}/>
-      </View>
+    <View>
         
-      <View>
-        <Button title='Fazer meu Cadastro' style={styles.button} onPress={()=> navigation.navigate('Registration')}/>
-      </View>
-
-      <StatusBar style='auto'/>
-  </SafeAreaView>
+    </View>
   );
 }
 

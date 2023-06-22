@@ -13,15 +13,23 @@ export default function LoginPage (){
 
 
 const styles = StyleSheet.create({
-    page:{
 
-    },
+    titleRectangle: {
+        position: 'absolute',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: 400,
+        height: 82,
+        top: 60,
+        backgroundColor: '#2938C4',
+        borderRadius: 99,
+      },
 
     container:{
         width: 300,
         height: 400,
         borderRadius: 48,
-
+        
         alignContent: 'center',
     },
 
