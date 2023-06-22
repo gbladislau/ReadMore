@@ -1,6 +1,6 @@
 FROM node:18.16
 
-WORKDIR /
+WORKDIR /usr/front
 
 EXPOSE 19000
 
@@ -9,4 +9,4 @@ COPY package-lock.json .
 
 RUN npm install
 
-CMD [ "npx", "expo", "start" ]
+CMD [ "npm", "expo", "start" ]
