@@ -1,41 +1,53 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { LinearGradient } from 'expo-linear-gradient';
-import{Button, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import{Button, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 export default function UserHomeScreen() {
   const navigation = useNavigation()
   return (
-    <View>
-        
-    </View>
+    <SafeAreaView style={styles.background}>
+        <View style={styles.paginaInicialBarra}>
+          <TouchableOpacity>
+            <Image style={styles.imagem} source={require('../assets/menu.png')} />
+          </TouchableOpacity>
+          
+          <Text style={styles.textTitle}>Página Inicial</Text>
+        </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   background: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
+    backgroundColor: '#070558',
+    flex:1,
   },
 
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    flex: 1,
+  paginaInicialBarra:{
+    backgroundColor:'#2938C4',
+    marginTop:50,
+    marginRight:-30,
+    width:276,
+    height:60,
+    flexShrink:0,
+    borderTopRightRadius: 33,
+    borderBottomRightRadius:33,
+    justifyContent: 'space-evenly',
+    flexDirection:'row',
   },
 
-  titleRectangle: {
-    position: 'absolute',
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: 400,
-    height: 82,
-    top: 60,
-    backgroundColor: '#2938C4',
-    borderRadius: 99,
+  textTitle: {
+    color:'white',
+    fontSize:29,
+    margin:10,
+    marginRight:20,
+    fontFamily: 'Manjari-regular',
+    fontStyle: 'normal',
   },
-
+  imagem:{
+    marginLeft:10,
+    marginTop:10
+  },
   titleText: {
     position: 'absolute',
 

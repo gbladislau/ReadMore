@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Text,TextInput, View, StyleSheet, TouchableOpacity } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text,SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import InputBox from "../components/InputBox";
 
@@ -20,12 +19,14 @@ export default function Registration (){
                                password:password })
     };
 
-    const postCadastro = async () => {t
+    const postCadastro = async () => {
         try{
             var response = await fetch('http://128.0.1:8000/', requestOptions);
             if (response.ok) {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/' HTTP ${response.status}`);
-                var responseJSON = await response.json(); 
+                var responseJSON
+                try{ responseJSON = await response.json();}
+                catch(erro){}
                 navigation.navigate("UserHomeScreen");
             }
             else {
@@ -34,10 +35,9 @@ export default function Registration (){
 
         }
         catch (erro){
-            console.log(`Erro no ${requestOptions["method"]} em http://128.0.1:8000/`);
+            console.log(`Erro no ${requestOptions["method"]} em http://128.0.1:8000/ body:${requestOptions['body']}`);
         }
     }
-
 
     return(
         <SafeAreaView style={styles.container_dft}>
@@ -45,29 +45,12 @@ export default function Registration (){
             <View style={styles.cadastroRetangulo}>
                 <Text style={styles.cadatroText}>Novo Cadastro</Text>
             </View>
-            
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="Username"
-                        placeholderTextColor="#003f5c"
-                        cursorColor='black'
-                        onChangeText={(username) => setEmail(username)}
-                    />
-                </View>
 
-                <InputBox inputName="email" inputSet={setEmail}/>
+                <InputBox inputName="Username" inputSet={setUsername} secureTextEntry={false}/>
 
-                <View style={styles.inputView}>
-                    <TextInput
-                        style={styles.TextInput}
-                        placeholder="Password"
-                        placeholderTextColor="#003f5c"
-                        cursorColor='black'
-                        secureTextEntry={true}
-                        onChangeText={(password) => setPassword(password)}
-                    />
-                </View>
+                <InputBox inputName="Email" inputSet={setEmail} secureTextEntry={false}/>
+
+                <InputBox inputName="Password" inputSet={setPassword} secureTextEntry={true}/>
 
                 <TouchableOpacity style={styles.loginBtn} onPress={postCadastro}>
                     <Text style={styles.loginText}>Fazer Cadastro</Text> 

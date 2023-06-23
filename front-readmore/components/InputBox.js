@@ -1,16 +1,18 @@
 import { Text,TextInput, View, StyleSheet} from "react-native";
 
-export default function InputBox ({inputName, setInput}){
-    <View style={styles.inputView}>
+export default function InputBox ({inputName, inputSet, secureTextEntry}){
+  return(
+        <View style={styles.inputView}>
          <TextInput
             style={styles.TextInput}
             placeholder={inputName}
             placeholderTextColor="#003f5c"
             cursorColor='black'
-            secureTextEntry={true}
-            onChangeText={(input) => setInput(input)}
+            secureTextEntry={secureTextEntry}
+            onChangeText={(input) => inputSet(input)}
         />
-    </View>
+      </View>
+  );
 }
 
 const styles = StyleSheet.create({
