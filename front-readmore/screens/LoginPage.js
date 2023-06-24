@@ -60,24 +60,23 @@ export default function LoginPage (){
 
 const styles = StyleSheet.create({
 
-    cadatroText:{
+      cadatroText:{
  
-        position: 'absolute',  
-        //fontFamily: 'Manjari',
-        fontStyle: 'normal',
-        fontSize: 32,
+        position: 'relative',  
+        fontFamily: 'Manjari-Bold',
+        fontSize: 52,
         color: 'white',
             
     },
 
-    container_dft: {
+      container_dft: {
         alignItems: 'center',
         justifyContent: 'center',
         textAlignVertical: 'center',
         flex: 1,
       },
 
-    inputView: {
+      inputView: {
         backgroundColor: "#4ADEDE",
         borderRadius: 30,
         width: "70%",
@@ -106,18 +105,18 @@ const styles = StyleSheet.create({
       cadastroRetangulo:
       {
         width:"90%",
-        borderRadius:25,
+        borderRadius:30,
         height:70,
         alignItems:"center",
         justifyContent:"center",
-        marginBottom:90,
+        marginBottom:70,
         backgroundColor:"#2938C4",
       },
 
       loginText:{
         position: 'absolute',
-        
-        //fontFamily: 'Manjari',
+
+        fontFamily: 'Manjari-regular',
         fontStyle: 'normal',
         fontSize: 20,
         color: 'white',

@@ -65,7 +65,7 @@ const styles = StyleSheet.create({
     cadatroText:{
  
         position: 'absolute',  
-        //fontFamily: 'Manjari',
+        fontFamily: 'Manjari-Bold',
         fontStyle: 'normal',
         fontSize: 32,
         color: 'white',
