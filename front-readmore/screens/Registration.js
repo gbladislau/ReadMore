@@ -1,60 +1,67 @@
 import { useState } from "react";
-import { Text,SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import InputBox from "../components/InputBox";
 
-export default function Registration (){
+export default function Registration() {
 
     const navigation = useNavigation();
 
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
 
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username:username,
-                               email:email,
-                               password:password })
+        body: JSON.stringify({
+            username: username,
+            email: email,
+            password: password,
+            confirmPassword: confirmPassword
+        })
     };
 
     const postCadastro = async () => {
-        try{
-            var response = await fetch('http://128.0.1:8000/', requestOptions);
+        try {
+            var response = await fetch('http://localhost:8000/signup', requestOptions);
             if (response.ok) {
-                console.log(`Sucesso na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/' HTTP ${response.status}`);
+                console.log(`Sucesso na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/signup' HTTP ${response.status}`);
                 var responseJSON
-                try{ responseJSON = await response.json();}
-                catch(erro){}
+                try { responseJSON = await response.json(); }
+                catch (erro) { }
                 navigation.navigate("UserHomeScreen");
             }
             else {
-                console.log(`Falha na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/' HTTP ${response.status}`);
+                console.log(`Falha na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/signup' HTTP ${response.status}`);
             }
 
         }
-        catch (erro){
-            console.log(`Erro no ${requestOptions["method"]} em http://128.0.1:8000/ body:${requestOptions['body']}`);
+        catch (erro) {
+            console.log(`Erro no ${requestOptions["method"]} em http://128.0.1:8000/signup body:${requestOptions['body']}`);
         }
     }
 
-    return(
+    return (
         <SafeAreaView style={styles.container_dft}>
 
             <View style={styles.cadastroRetangulo}>
                 <Text style={styles.cadatroText}>Novo Cadastro</Text>
             </View>
 
-                <InputBox inputName="Username" inputSet={setUsername} secureTextEntry={false}/>
+            <InputBox inputName="Username" inputSet={setUsername} secureTextEntry={false} />
 
-                <InputBox inputName="Email" inputSet={setEmail} secureTextEntry={false}/>
+            <InputBox inputName="Email" inputSet={setEmail} secureTextEntry={false} />
 
-                <InputBox inputName="Password" inputSet={setPassword} secureTextEntry={true}/>
+            <InputBox inputName="Password" inputSet={setPassword} secureTextEntry={true} />
 
-                <TouchableOpacity style={styles.loginBtn} onPress={postCadastro}>
-                    <Text style={styles.loginText}>Fazer Cadastro</Text> 
-                </TouchableOpacity>
+            <InputBox inputName="Confirm Password" inputSet={setConfirmPassword} secureTextEntry={true} />
+
+            <TouchableOpacity style={styles.loginBtn} onPress={postCadastro}>
+                <Text style={styles.loginText}>Fazer Cadastro</Text>
+            </TouchableOpacity>
 
         </SafeAreaView>
     );
@@ -62,14 +69,14 @@ export default function Registration (){
 
 const styles = StyleSheet.create({
 
-    cadatroText:{
- 
-        position: 'absolute',  
+    cadatroText: {
+
+        position: 'absolute',
         fontFamily: 'Manjari-Bold',
         fontStyle: 'normal',
         fontSize: 32,
         color: 'white',
-            
+
     },
 
     container_dft: {
@@ -77,7 +84,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         textAlignVertical: 'center',
         flex: 1,
-      },
+    },
 
     inputView: {
         backgroundColor: "#4ADEDE",
@@ -86,45 +93,45 @@ const styles = StyleSheet.create({
         height: 45,
         marginBottom: 20,
         alignItems: "center",
-      },
-      
-      TextInput: {
+    },
+
+    TextInput: {
         height: 50,
         flex: 1,
         padding: 10,
-      },
+    },
 
-      loginBtn:
-      {
-        width:"80%",
-        borderRadius:25,
-        height:60,
-        alignItems:"center",
-        justifyContent:"center",
-        marginTop:3,
-        backgroundColor:"#2938C4",
-      },
+    loginBtn:
+    {
+        width: "80%",
+        borderRadius: 25,
+        height: 60,
+        alignItems: "center",
+        justifyContent: "center",
+        marginTop: 3,
+        backgroundColor: "#2938C4",
+    },
 
-      cadastroRetangulo:
-      {
-        width:"90%",
-        borderRadius:25,
-        height:70,
-        alignItems:"center",
-        justifyContent:"center",
-        marginBottom:90,
-        backgroundColor:"#2938C4",
-      },
+    cadastroRetangulo:
+    {
+        width: "90%",
+        borderRadius: 25,
+        height: 70,
+        alignItems: "center",
+        justifyContent: "center",
+        marginBottom: 90,
+        backgroundColor: "#2938C4",
+    },
 
 
 
-      loginText:{
+    loginText: {
         position: 'absolute',
-        
+
         //fontFamily: 'Manjari',
         fontStyle: 'normal',
         fontSize: 20,
         color: 'white',
-        
-      }
+
+    }
 })

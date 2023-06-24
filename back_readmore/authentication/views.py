@@ -9,7 +9,9 @@ from django.contrib.auth import authenticate, login, logout
 def home(request):
     return render(request, "")
 
-def singup(request):
+def signup(request):
+    
+    print(request.method)
     
     if request.method == "POST":
         username = request.POST['username'] # login do usuário
@@ -17,7 +19,7 @@ def singup(request):
         # sobrenome = request.POST['sobrenome'] # sobrenome do usuário
         email = request.POST['email'] # email do usuário
         senha = request.POST['password'] # senha do usuário
-        senha2 = request.POST['senha2'] # confirmação da senha
+        senha2 = request.POST['confirmPassword'] # confirmação da senha
         
         myuser = User.objects.create_user(username, email, senha)
         # myuser.firt_name = nome
@@ -25,12 +27,11 @@ def singup(request):
         
         myuser.save()
         
-        messages.success(request, "Conta criada.")
-        return redirect('')
+        return messages.success(request, "Conta criada.")
     
-    return render(request, "")
+    return messages.error(request, "metodo não aceito.")
 
-def singin(request):
+def signin(request):
     
     if request.method == 'POST':
         username = request.POST['username'] # login
@@ -49,7 +50,7 @@ def singin(request):
     
     return render(request, "")
 
-def singout(request):
+def signout(request):
     logout(request)
     messages.success(request, "sessão finalizada")
     
