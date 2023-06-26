@@ -1,7 +1,6 @@
-
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native'
-import { HomeStack } from './navigation/stack';
+import { HomeStack } from './navigation/Stack';
 import { useFonts } from 'expo-font';
 
 export default function App() {
@@ -14,6 +13,5 @@ export default function App() {
     <NavigationContainer>
       <HomeStack />
     </NavigationContainer>
-
   );
 }

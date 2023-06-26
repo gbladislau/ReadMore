@@ -5,7 +5,7 @@ export default function TopBar( {title}) {
   const navigation = useNavigation()
   return (
         <View style={styles.paginaInicialBarra}>
-          <TouchableOpacity onPress={navigation.openDrawer()}>
+          <TouchableOpacity onPress={navigation.openDrawer}>
             <Image style={styles.imagem} source={require('../assets/menu.png')} />
           </TouchableOpacity>
           
@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
 
   paginaInicialBarra:{
     backgroundColor:'#2938C4',
-    marginTop:50,
+    marginBottom:10,
     marginRight:-30,
     width:276,
     height:60,
