@@ -1,18 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
 import{Button, Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import TopBar from '../components/TopBar';
 
 export default function UserHomeScreen() {
   const navigation = useNavigation()
   return (
     <SafeAreaView style={styles.background}>
-        <View style={styles.paginaInicialBarra}>
-          <TouchableOpacity>
-            <Image style={styles.imagem} source={require('../assets/menu.png')} />
-          </TouchableOpacity>
-          
-          <Text style={styles.textTitle}>Página Inicial</Text>
-        </View>
+        <TopBar title={"Página Inicial"}/>
     </SafeAreaView>
   );
 }
