@@ -2,6 +2,5 @@
     "[python]": {
         "editor.defaultFormatter": "ms-python.python"
     },
-    "python.formatting.provider": "none",
-    "editor.snippetSuggestions": "top",
+    "python.formatting.provider": "autopep8",
 }
