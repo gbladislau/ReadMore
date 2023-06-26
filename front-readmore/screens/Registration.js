@@ -25,22 +25,24 @@ export default function Registration() {
     };
 
     const postCadastro = async () => {
+        const url_post = 'http://192.168.0.2:8000/signup'
         try {
-            var response = await fetch('http://localhost:8000/signup', requestOptions);
+            var response = await fetch(url_post, requestOptions);
             if (response.ok) {
-                console.log(`Sucesso na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/signup' HTTP ${response.status}`);
+                console.log(`Sucesso na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`);
                 var responseJSON
                 try { responseJSON = await response.json(); }
                 catch (erro) { }
-                navigation.navigate("UserHomeScreen");
+                navigation.navigate("UserHome");
             }
             else {
-                console.log(`Falha na requisição ${requestOptions["method"]} para 'http://128.0.1:8000/signup' HTTP ${response.status}`);
+                console.log(`Falha na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`);
             }
 
         }
         catch (erro) {
-            console.log(`Erro no ${requestOptions["method"]} em http://128.0.1:8000/signup body:${requestOptions['body']}`);
+            console.log(`Erro no ${requestOptions["method"]} em ${ url_post } body:${requestOptions['body']}`)
+            console.log(erro);
         }
     }
 

@@ -4,6 +4,8 @@ services:
   back:
     build: "./back_readmore"
     container_name: Django-back
+    environment:
+      - PYTHONUNBUFFERED=1
     volumes:
       - ./back_readmore:/usr/back
     ports:
