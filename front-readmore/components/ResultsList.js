@@ -6,6 +6,7 @@ export default function ResultsList({searchResults}) {
 
   console.log(searchResults)
 
+
   return(<View/>)
     bookComponent = searchResults.map( (item, i) =>{
         return <Book name={item}></Book>

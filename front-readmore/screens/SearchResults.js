@@ -1,46 +1,63 @@
-import { StyleSheet, Dimensions, Alert, View,Text ,Image, TouchableOpacity} from 'react-native';
+import { StyleSheet, Dimensions, Alert, View,Text ,Image, TouchableOpacity, ActivityIndicator} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ResultsList from '../components/ResultsList';
+import { useState, useEffect } from 'react';
 
-function SearchResults({ route  }) {
-    const navigator = useNavigation();
+function SearchResults({ route ,navigation }) {
+    
+
+    const [loading, setLoading] = useState(false);
+    const [searchResults, setSearchResults] = useState();
 
     const requestOptions = {
         method: 'GET',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Accept': 'application/json' },
     };
-
-    const getOPLResponse = async ({ key }) => {
-        const url_ = `https://openlibrary.org/search.json?&fields=title,key,cover_i&sort=editions&mode=everything&q=${key}`
+ 
+    const fetchSearch = async () => {
+        const url_ = `https://openlibrary.org/search.json?&fields=title,key,cover_i&sort=editions&mode=everything&q=${route.params.searchKey}`
         try {
+            setLoading(true)
             var response = await fetch(url_, 'GET');
             console.log(response)
             if (response.ok) {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para ${url_} HTTP ${response.status}`);
-                var responseJSON
-                try { responseJSON = await response.json(); }
-                catch (erro) { }
-            }
+            
+                try { 
+                    var responseJSON = await response.json();
+                    setSearchResults(responseJSON)
+                }
+                catch (erro) {
+                    setLoading(false)}
+                    console.log(erro);
+                }
             else {
                 console.log(`Falha na requisição ${requestOptions["method"]} para ${url_} HTTP ${response.status}`);
             }
+            setLoading(false)
 
         }
         catch (erro) {
             console.log(`Erro no ${requestOptions["method"]} em ${url_} body:${requestOptions['body']}`)
             console.log(erro);
+            setLoading(false)
             Alert.alert("Verifique sua conexão com a internet!")
-
         }
     }
+    
+    useEffect(()=>{
+            fetchSearch();
+        }
+    );
    
     return (
         <SafeAreaView style={styles.background}>
+            {loading && <ActivityIndicator ></ActivityIndicator>}
             <View style={styles.retanguloContainer}>
                 <Text style={styles.titleText}>Busca por: {route.params.searchKey} </Text>
-                <ResultsList searchResults={getOPLResponse(route.params.searchKey)} />
-                <TouchableOpacity style={styles.imagem} onPress={()=> navigator.goBack()}>
+                <ResultsList searchResults={searchResults} />
+                <TouchableOpacity style={styles.imagem} onPress={()=> navigation.goBack()}>
                     <Image source={require('../assets/back.png')} />
                 </TouchableOpacity>
             </View>
