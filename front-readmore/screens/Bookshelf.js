@@ -7,6 +7,9 @@ function Bookshelf() {
     return (
         <SafeAreaView style={styles.background}>
             <TopBar title={"Minha Estante"}/>
+            <View style = {styles.retanguloContainer}>
+
+            </View>
         </SafeAreaView>
     );
 }

@@ -25,7 +25,6 @@ const styles = StyleSheet.create({
     flexShrink:0,
     borderTopRightRadius: 33,
     borderBottomRightRadius:33,
-    justifyContent: 'space-evenly',
     flexDirection:'row',
   },
 
@@ -38,7 +37,8 @@ const styles = StyleSheet.create({
     fontStyle: 'normal',
   },
   imagem:{
-    marginLeft:10,
+    marginLeft:17,
+    marginRight:10,
     marginTop:10
   },
 });

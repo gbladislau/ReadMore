@@ -1,6 +1,6 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import UserHomeScreen from '../screens/UserHomeScreen';
-import SearchBooks from '../screens/SearchBooks';
+import SearchPage from '../screens/SearchPage';
 import { NavigationContainer } from '@react-navigation/native';
 import Bookshelf from '../screens/Bookshelf';
 
@@ -15,7 +15,7 @@ export const MainDrawer = () => {
 
       }}>
       <Drawer.Screen name="Página Inicial" component={UserHomeScreen} />
-      <Drawer.Screen name="Explorar Livros" component={SearchBooks} />
+      <Drawer.Screen name="Explorar Livros" component={SearchPage} />
       <Drawer.Screen name="Minha Estante" component={Bookshelf} />
     </Drawer.Navigator>
 

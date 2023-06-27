@@ -25,7 +25,7 @@ export default function Registration() {
     };
 
     const postCadastro = async () => {
-        const url_post = 'http://192.168.0.2:8000/signup'
+        const url_post = 'http://192.168.0.5:8000/signup'
         try {
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {
