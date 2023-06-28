@@ -38,10 +38,6 @@ function SearchPage() {
                     <Image source={require('../assets/search.png')} />
                 </TouchableOpacity>
 
-                <ScrollView>
-                    
-                </ScrollView>
-
             </View>
         </SafeAreaView>
     );
