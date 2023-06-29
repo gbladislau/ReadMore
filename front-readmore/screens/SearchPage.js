@@ -16,6 +16,7 @@ function SearchPage() {
                 <TextInput style={styles.caixaDePesquisa} 
                     placeholder='Pesquisa'
                     placeholderTextColor={'grey'}
+                    cursorColor='black'
                     onChangeText={(input) => setsearchKey(input)}
                     />
                 <View style={styles.barraDePesquisa}>
@@ -53,9 +54,10 @@ const styles = StyleSheet.create({
     },
 
     caixaDePesquisa:{
-        width: '90%',
+        width: '72%',
         height: 46,
         marginTop:12,
+        marginRight:30,
         left:36,
         position:'absolute',
         zIndex:1,

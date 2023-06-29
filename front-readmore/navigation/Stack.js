@@ -5,6 +5,7 @@ import Registration from '../screens/Registration';
 import UserHomeScreen from '../screens/UserHomeScreen';
 import { MainDrawer } from './Drawer';
 import SearchResults from '../screens/SearchResults';
+import BookPage from '../screens/BookPage';
 
 
 const Stack = createStackNavigator();
@@ -18,8 +19,9 @@ export const HomeStack = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Registration" component={Registration} />
       <Stack.Screen name="Login" component={LoginPage} />
-      <Stack.Screen name="UserHome" component={MainDrawer} />
       <Stack.Screen name="SearchResults" component={SearchResults}/>
+      <Stack.Screen name="BookPage" component={BookPage}/>
+      <Stack.Screen name="UserHome" component={MainDrawer} />
       {/* <Stack.Screen name="Settings" component={Settings} />*/}
     </Stack.Navigator>
   );
