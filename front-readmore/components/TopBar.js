@@ -19,20 +19,23 @@ const styles = StyleSheet.create({
   paginaInicialBarra:{
     backgroundColor:'#2938C4',
     marginBottom:10,
-    marginRight:-30,
-    width:276,
+    width:'80%',
     height:60,
-    flexShrink:0,
     borderTopRightRadius: 33,
     borderBottomRightRadius:33,
     flexDirection:'row',
+
   },
 
   textTitle: {
     color:'white',
+    display: 'flex',
+    width: '70%',
+    height:'auto',
     fontSize:29,
     margin:10,
     marginRight:20,
+
     fontFamily: 'Manjari-regular',
     fontStyle: 'normal',
   },
