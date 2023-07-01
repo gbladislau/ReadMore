@@ -1,9 +1,15 @@
 from django.shortcuts import redirect, render
-from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse 
+
+
+from authentication.serializer import RegistrationSerializer
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework.authtoken.models import Token
+
 
 # Create your views here.
 
@@ -11,30 +17,23 @@ from django.http import HttpResponse
 def home(request):
     return render(request, "")
 
-@csrf_exempt
+@api_view(['POST',])
 def signup(request):
     
-    if request.method == "POST":
-        try:
-            request_body_dict = (request.body).decode()
-        
-            username = request_body_dict['username'] # login do usuário
-            email = request_body_dict['email'] # email do usuário
-            senha = request_body_dict['password'] # senha do usuário
-            senha2 = request_body_dict['confirmPassword'] # confirmação da senha
-            
-            
-            if senha == senha2:
-                myuser = User.objects.create_user(username, email, senha)
-                myuser.save()
-                messages.success(request, "Conta criada.")
-                return HttpResponse("Usuário criado com sucesso!")
-                
-        except:
-            messages.error(request,"ERRO NOS CAMPOS DO REQUEST!")
-    
-    messages.error(request, "metodo não aceito.")
-    return HttpResponse("Erro na criação, método não aceito ou campos faltando")
+    if request.method == 'POST':
+        serializer = RegistrationSerializer
+        data ={}
+        if serializer.save():
+            conta = serializer.save()
+            data['Response'] = "Usuário criado com sucesso!"
+            data['Email'] = conta.email
+            data['Username'] = conta.username
+            data['Password'] = conta.password
+            token = Token.objects.get(user=conta).key
+            data['Token'] = token
+        else:
+            data = serializer.errors
+        return Response(data)
 
 @csrf_exempt
 def signin(request):
