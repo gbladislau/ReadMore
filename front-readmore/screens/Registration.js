@@ -16,7 +16,7 @@ export default function Registration() {
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
+        content: JSON.stringify({
             username: username,
             email: email,
             password: password,
@@ -25,7 +25,7 @@ export default function Registration() {
     };
 
     const postCadastro = async () => {
-        const url_post = 'http://192.168.0.5:8000/signup'
+        const url_post = 'http://192.168.0.5:8000/api/register/'
         try {
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {

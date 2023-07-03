@@ -51,8 +51,8 @@ function SearchResults({ route, navigation }) {
 
     useEffect(() => {
         if (searchResults) {
-            console.log("\n\n\nUpdated searchResults:", searchResults);
-            setBookList(<ResultsList searchResults={searchResults} />);
+            console.log("\nUpdated searchResults:\n", searchResults);
+            setBookList(<ResultsList searchResults={searchResults} isBook={true} />);
         }
     }, [searchResults]);
 
@@ -62,7 +62,7 @@ function SearchResults({ route, navigation }) {
             <View style={styles.retanguloContainer}>
                 <Text style={styles.titleText}>Busca por: {route.params.searchKey} </Text>
 
-                {loading && (<ActivityIndicator style></ActivityIndicator>)}
+                {loading && (<ActivityIndicator  size="large" style={styles.loading}></ActivityIndicator>)}
 
                 <TouchableOpacity style={styles.imagem} onPress={() => navigation.goBack()}>
                     <Image source={require('../assets/back.png')} />
@@ -81,6 +81,7 @@ const Wwidth = Dimensions.get('window').width;
 const marginLeftvar = ((Wwidth - ((Wwidth) * 0.92)) / 2);
 
 const styles = StyleSheet.create({
+
     background: {
         backgroundColor: '#070558',
         flex: 1,
@@ -117,6 +118,10 @@ const styles = StyleSheet.create({
         marginTop: 30,
         marginBottom:45
     },
+    loading:{
+
+        marginTop:40,
+    },  
 })
 
 export default SearchResults;

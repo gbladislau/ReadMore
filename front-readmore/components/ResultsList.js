@@ -1,17 +1,22 @@
 
 import { View, StyleSheet } from 'react-native';
 import BookCard from './BookCard';
+import AuthorCard from './AuthorCard';
 
-export default function ResultsList({ searchResults, loading }) {
+export default function ResultsList({ searchResults, isBook }) {
 
-  console.log(searchResults);
+    const component = searchResults['docs'].map((item, i) => {
 
-  const bookComponent = searchResults['docs'].map((item, i) => {
-    return <BookCard  key={i} bookData={item}/>
-  })
-  return (
-    <View>{bookComponent}</View>
-  );
+        if (isBook)
+            return <BookCard key={i} bookData={item} />
+        else
+            return <AuthorCard key={i} authorData={item} />
+    })
+    var componentCards = component;
+
+    return (
+        <View>{componentCards}</View>
+    );
 
 }
 

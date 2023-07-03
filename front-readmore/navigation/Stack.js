@@ -19,8 +19,6 @@ export const HomeStack = () => {
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Registration" component={Registration} />
       <Stack.Screen name="Login" component={LoginPage} />
-      <Stack.Screen name="SearchResults" component={SearchResults}/>
-      <Stack.Screen name="BookPage" component={BookPage}/>
       <Stack.Screen name="UserHome" component={MainDrawer} />
       {/* <Stack.Screen name="Settings" component={Settings} />*/}
     </Stack.Navigator>

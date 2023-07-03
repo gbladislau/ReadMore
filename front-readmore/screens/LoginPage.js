@@ -20,7 +20,7 @@ export default function LoginPage() {
     };
 
     const postLogin = async () => {
-        const url_post = 'http://192.168.0.5:8000/signin'
+        const url_post = 'http://192.168.0.5:8000/api/login/'
         try {
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {
