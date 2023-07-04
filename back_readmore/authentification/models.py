@@ -4,14 +4,17 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
     
 class BookManager(models.Manager):
     
-    def create_book(self, title):
-        book = self.create(title=title)
+    def create_book(self, title,opl_key,status):
+        book = self.create(title=title,opl_key=opl_key,status=status,pages_read=0)
         # do something with the book
         return book
     
 class BookData(models.Model):
-
-
+    title = models.CharField(max_length=255, unique=False)
+    opl_key = models.CharField(max_length=255, unique=True)
+    status = models.CharField(max_length=200)
+    pages_read = models.IntegerField()
+    
     def __str__(self):
         return self.name
 
@@ -49,7 +52,7 @@ class UserData(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    books_list = models.ManyToManyField(BookData)
+    books_list = []
     
     objects = UserManager()
     

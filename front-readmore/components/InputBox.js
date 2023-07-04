@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         width: "70%",
         height: 45,
         marginBottom: 20,
-        alignItems: "center",
       },
       
       TextInput: {

@@ -1,20 +1,20 @@
 import { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import InputBox from "../components/InputBox";
 
 export default function LoginPage() {
 
     const navigation = useNavigation();
 
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            username: username,
+            email: email,
             password: password
         })
     };
@@ -26,19 +26,27 @@ export default function LoginPage() {
             if (response.ok) {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para ${url_post} HTTP ${response.status}`);
                 var responseJSON
-                try { responseJSON = await response.json(); }
-                catch (erro) { }
-                navigation.navigate("UserHome");
+                try { 
+                    responseJSON = await response.json(); 
+                    console.log(JSON.stringify(responseJSON));
+                    navigation.navigate("UserHome");
+                    localStorage.setItem("token:", JSON.stringify(responseJSON.access),)
+                }
+                catch (erro) { 
+                    console.log(erro)
+                    Alert.alert("Erro interno, tente novamente")
+                }
             }
             else {
                 console.log(`Falha na requisição ${requestOptions["method"]} para ${url_post} HTTP ${response.status}`);
+                Alert.alert("Email ou senha incorretos, tente novamente")
             }
 
         }
         catch (erro) {
             console.log(`Erro no ${requestOptions["method"]} em ${url_post} body:${requestOptions['body']}`)
             console.log(erro);
-            navigation.navigate("UserHome");
+            Alert.alert("Erro de Rede, verifique sua conexão com a internet")
         }
     }
 
@@ -49,7 +57,7 @@ export default function LoginPage() {
                 <Text style={styles.cadatroText}>Login</Text>
             </View>
 
-            <InputBox inputName="Username" inputSet={setUsername} secureTextEntry={false} />
+            <InputBox inputName="Email" inputSet={setEmail} secureTextEntry={false} />
 
             <InputBox inputName="Password" inputSet={setPassword} secureTextEntry={true} />
 

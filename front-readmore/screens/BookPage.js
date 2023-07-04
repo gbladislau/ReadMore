@@ -1,9 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
+import { useState } from 'react';
 import { View, StyleSheet, Image, Text, Touchable, Button, TouchableHighlight, TouchableOpacity} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
+/**
+ * Pagina de livro, recebe parametros pelo route e cria pagina com eles
+ * @param {Array} param0 
+ * @returns 
+ */
 export default function BookPage({ route, navigator }) {
     const navigation = useNavigation();
 

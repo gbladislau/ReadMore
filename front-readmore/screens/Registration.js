@@ -3,6 +3,10 @@ import { Text, SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-na
 import { useNavigation } from '@react-navigation/native';
 import InputBox from "../components/InputBox";
 
+/**
+ * SCREEN DE CADASTRO DE USUÁRIO
+ * @returns REGISTRATION SCREEN
+ */
 export default function Registration() {
 
     const navigation = useNavigation();
@@ -12,11 +16,11 @@ export default function Registration() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
 
-
+    // Estabelecendo parametros para request
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        content: JSON.stringify({
+        body: JSON.stringify({
             username: username,
             email: email,
             password: password,
@@ -32,16 +36,20 @@ export default function Registration() {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`);
                 var responseJSON
                 try { responseJSON = await response.json(); }
-                catch (erro) { }
+                catch (erro) { 
+                    console.log(erro);
+                }
                 navigation.navigate("UserHome");
             }
             else {
-                console.log(`Falha na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`);
+                console.log(`Falha na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`)
+                Alert.alert("Erro interno tente novamente")
             }
 
         }
         catch (erro) {
             console.log(`Erro no ${requestOptions["method"]} em ${ url_post } body:${requestOptions['body']}`)
+            Alert.alert("Erro de Rede, verifique sua conexão com a internet")
             console.log(erro);
         }
     }
@@ -130,7 +138,7 @@ const styles = StyleSheet.create({
     loginText: {
         position: 'absolute',
 
-        //fontFamily: 'Manjari',
+        fontFamily: 'Manjari-regular',
         fontStyle: 'normal',
         fontSize: 20,
         color: 'white',

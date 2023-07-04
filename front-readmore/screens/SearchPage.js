@@ -6,6 +6,10 @@ import { useNavigation } from '@react-navigation/native';
 import { useState } from 'react';
 import { TextInput } from 'react-native-gesture-handler';
 
+/**
+ * SCREEN DE PESQUISA DE LIVROS
+ * @returns PAGINA DE PESQUISA
+ */
 function SearchPage() {
     const navigator = useNavigation();
     const [searchKey, setsearchKey] = useState('');
