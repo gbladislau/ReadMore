@@ -4,6 +4,7 @@ import { View, StyleSheet, Image, Text, Touchable, Button, TouchableHighlight, T
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiRequestWithToken } from '../api_man/ApiManager';
+import SubjectsList from '../components/SubjectsList';
 
 /**
  * Pagina de livro, recebe parametros pelo route e cria pagina com eles
@@ -13,14 +14,15 @@ import { apiRequestWithToken } from '../api_man/ApiManager';
 export default function BookPage({ route, navigator }) {
     const navigation = useNavigation();
     const [loading, setLoading] = useState(false);
-    const [searchResults, setSearchResults] = useState({});
+    const [searchResults, setSearchResults] = useState();
+    const [pagesnum, setpagesnum] = useState(<Text style={styles.pagesText}>Número de Páginas Indisponível</Text>);
+    const [subList, setSubList] = useState(<View/>); 
 
     var bookData = route.params.bookData;
+
     const fetchBookData = async () => {
         console.log('Busca + dados sobre o livro ');
         console.log(bookData['key']);
-
-
         const url_ = `https://openlibrary.org${bookData['key']}.json`;
         try {
             setLoading(true)
@@ -31,7 +33,7 @@ export default function BookPage({ route, navigator }) {
                 try {
                     var responseJSON = await response.json();
                     setSearchResults(responseJSON);
-                    console.log(JSON.stringify(responseJSON))
+                    //console.log(JSON.stringify(responseJSON))
                 }
                 catch (e) {
                     console.log(e)
@@ -55,21 +57,45 @@ export default function BookPage({ route, navigator }) {
         fetchBookData();
     }, []);
 
-    var pageNumber = <View></View>;
+
+    // useEffect(() => {
+
+    //     var pgnum = -1;
+    //     console.log(searchResults);
+    //     searchResults['excerpts'].map(item => {
+    //         if ('pages' in item) {
+    //             pgnum = item.pages;
+    //         }
+    //     });
+
+    //     if (pgnum != -1)
+    //         pageNumber = <Text style={{ fontFamily: 'Manjari-Bold' }}>Número de Páginas:{pgnum}</Text>;
+
+    // }, [searchResults]);
 
     useEffect(() => {
-        var pgnum = -1;
+        if (searchResults) {
+            console.log("\nUpdated searchResults:\n", searchResults);
+            var pgnum = -1;
 
-        searchResults['excerpts'].find(item => {
-            if ('pages' in item) {
-                pgnum = item.pages;
-            }
-        });
+            searchResults['excerpts'].map(item => {
+                console.log("\n\n");
+                console.log(item);
+                console.log("\n\n");
+                if ('pages' in item) {
+                    pgnum = parseInt(item.pages);
+                    console.log("ACHOU");
+                    console.log(item.pages);
+                }
+            });
+            console.log(pgnum);
+            if (pgnum != -1)
+                setpagesnum( <Text style={styles.pagesText}>Número de Páginas: {pgnum}</Text>);
 
-        if (pgnum != -1)
-            pageNumber = <Text style={{ fontFamily: 'Manjari-Bold' }}>Número de Páginas:{pgnum}</Text>;
-            
-    }, [setSearchResults])
+            setSubList(  <SubjectsList subjectsArray={searchResults['subjects']}/>)
+        }
+
+    }, [searchResults]);
 
     if ('cover_i' in bookData) {
         var coverJSX = <View style={styles.image}></View>;
@@ -84,7 +110,8 @@ export default function BookPage({ route, navigator }) {
 
     var lerOuVoltarALer = 'Adicionar na Minha Estante';
     try {
-        var apiData = apiRequestWithToken('198.162.0.5:8000');
+        
+        //var apiData = apiRequestWithToken('198.162.0.5:8000');
         // if (apiData) {
         //     lerOuVoltarALer = 'Adicionar Marcação';
         //     apiData
@@ -93,7 +120,6 @@ export default function BookPage({ route, navigator }) {
     catch (erro) {
         console.log(erro);
     }
-
 
     return (
         <SafeAreaView style={styles.background}>
@@ -106,16 +132,23 @@ export default function BookPage({ route, navigator }) {
                             </TouchableOpacity>
                             <Text style={styles.titleText}>{titleName}</Text>
                         </View>
-                        <View style={{ flex: 1, width: 'auto', height: 'auto', flexShrink: 0, flexDirection: 'row' }}>
-
+                        <View style={{ flex: 1,
+                        width: 'auto',
+                        height: 'auto',
+                        flexShrink: 0,
+                        alignContent:'center',
+                        alignItems:'center' 
+                         }}>
                             {coverJSX}
-                            <View style={styles.lateralContainer}>
-                                {pageNumber}
+
+                        </View>
+                            <View style={styles.container}>
+                                {pagesnum}
                                 <TouchableOpacity style={styles.botaoLerOpacity}>
                                     <Text style={styles.button}>{lerOuVoltarALer}</Text>
                                 </TouchableOpacity>
                             </View>
-                        </View>
+                            {subList}
                     </ScrollView>
                 </View>
             </View>
@@ -125,6 +158,13 @@ export default function BookPage({ route, navigator }) {
 }
 
 const styles = StyleSheet.create({
+    pagesText:{
+        fontFamily: 'Manjari-Bold',
+        fontSize:18,
+        color:'white',
+        margin:12, 
+        textAlign:'center',
+    },
     image: {
         marginLeft: 6,
         borderRadius: 9,
@@ -134,11 +174,11 @@ const styles = StyleSheet.create({
         height: 300,
     },
     imagemMenu: {
-        marginLeft: 17,
-        marginRight: 10,
-        marginTop: 10
+        marginLeft: 20,
+        marginTop:12
     },
-    lateralContainer: {
+    container: {
+        marginTop:12,
         padding: 3,
         flex: 1,
         flexDirection: 'column',
@@ -187,7 +227,7 @@ const styles = StyleSheet.create({
         fontSize: 26,
         marginTop: 10,
         marginBottom: 6,
-        marginLeft: 'auto',
+        marginLeft: '5%',
         fontFamily: 'Manjari-regular',
     },
     background: {
