@@ -1,8 +1,14 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Logout() {
-    localStorage.removeItem('token');
+    try{
+        const ok = AsyncStorage.removeItem('acess_token');
+    }
+    catch(erro){
+        console.log(erro)
+    }
     navigator = useNavigation();
-    navigator.navigate('HomeScreen');
+    navigator.navigate('Home');
     return;
 }

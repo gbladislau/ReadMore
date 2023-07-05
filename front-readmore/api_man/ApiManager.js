@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
 
 /**
@@ -6,7 +7,7 @@ import { Alert } from "react-native";
  */
 export const apiRequestWithToken = async (uri) => {
 
-    var TOKEN = localStorage.getItem('token');
+    var TOKEN = AsyncStorage.getItem('acess_token');
 
     const requestOptions = {
         method: 'GET',

@@ -17,7 +17,7 @@ export const MainDrawer = () => {
       <Drawer.Screen name="Página Inicial" component={UserHomeScreen} />
       <Drawer.Screen name="Explorar Livros" component={SearchStack} />
       <Drawer.Screen name="Minha Estante" component={Bookshelf} />
-      <Drawer.Screen name="LogOut" component={Logout}/>
+      <Drawer.Screen name="Logout" component={Logout}/>
     </Drawer.Navigator>
 
   );
