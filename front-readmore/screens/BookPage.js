@@ -4,22 +4,37 @@ import { View, StyleSheet, Image, Text, Touchable, Button, TouchableHighlight, T
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiRequestWithToken } from '../api_man/ApiManager';
-import SubjectsList from '../components/SubjectsList';
+import SubjectsBox from '../components/SubjectsList';
+import DescriptionBox from '../components/DescriptionBox';
+import AuthorBox from '../components/AuthorBox';
 
 /**
  * Pagina de livro, recebe parametros pelo route e cria pagina com eles
  * @param {Array} param0 
  * @returns 
  */
-export default function BookPage({ route, navigator }) {
-    const navigation = useNavigation();
-    const [loading, setLoading] = useState(false);
-    const [searchResults, setSearchResults] = useState();
-    const [pagesnum, setpagesnum] = useState(<Text style={styles.pagesText}>Número de Páginas Indisponível</Text>);
-    const [subList, setSubList] = useState(<View/>); 
+export default function BookPage({ route }) {
 
     var bookData = route.params.bookData;
+    const navigation = useNavigation();
 
+    const [loading, setLoading] = useState(false);
+    const [searchResults, setSearchResults] = useState();
+
+    const [authorBox, setauthorBox] = useState(<View />);
+    const [pagesnum, setpagesnum] = useState(<Text style={styles.pagesText}>Número de Páginas Indisponível</Text>);
+    const [subList, setSubList] = useState(<View />);
+    const [descriptionBox, setdescriptionBox] = useState(<View />);
+
+
+
+    const bookKey = bookData['key'];
+    const titleName = bookData['title'];
+    const authorName = bookData['author_name'];
+
+    /**
+     * Busca mais dados sobre o livro
+     */
     const fetchBookData = async () => {
         console.log('Busca + dados sobre o livro ');
         console.log(bookData['key']);
@@ -57,60 +72,64 @@ export default function BookPage({ route, navigator }) {
         fetchBookData();
     }, []);
 
-
-    // useEffect(() => {
-
-    //     var pgnum = -1;
-    //     console.log(searchResults);
-    //     searchResults['excerpts'].map(item => {
-    //         if ('pages' in item) {
-    //             pgnum = item.pages;
-    //         }
-    //     });
-
-    //     if (pgnum != -1)
-    //         pageNumber = <Text style={{ fontFamily: 'Manjari-Bold' }}>Número de Páginas:{pgnum}</Text>;
-
-    // }, [searchResults]);
-
+    /**
+     * BUSCA O NUMERO DE PAGINAS DO LIVRO e SETA outros componentes
+     * caixa de autor e caixa de generos e caixa de descrição
+     */
     useEffect(() => {
         if (searchResults) {
             console.log("\nUpdated searchResults:\n", searchResults);
             var pgnum = -1;
 
-            searchResults['excerpts'].map(item => {
-                console.log("\n\n");
-                console.log(item);
-                console.log("\n\n");
-                if ('pages' in item) {
-                    pgnum = parseInt(item.pages);
-                    console.log("ACHOU");
-                    console.log(item.pages);
-                }
-            });
-            console.log(pgnum);
-            if (pgnum != -1)
-                setpagesnum( <Text style={styles.pagesText}>Número de Páginas: {pgnum}</Text>);
+            if (searchResults['excerpts'] != null) {
+                searchResults['excerpts'].map(item => {
+                    console.log("\n\n");
+                    console.log(item);
+                    console.log("\n\n");
+                    if ('pages' in item) {
+                        pgnum = parseInt(item.pages);
+                        console.log("ACHOU");
+                        console.log(item.pages);
+                    }
+                });
 
-            setSubList(  <SubjectsList subjectsArray={searchResults['subjects']}/>)
+                console.log(pgnum);
+
+                if (pgnum != -1)
+                    setpagesnum(<Text style={styles.pagesText}>Número de Páginas: {pgnum}</Text>);
+            }
+
+            if (searchResults['subjects'] != null)
+                setSubList(<SubjectsBox subjectsArray={searchResults['subjects']} />)
+
+            if (searchResults['description'])
+                setdescriptionBox(<DescriptionBox descriptionString={searchResults['description']}/>)
+
+            if( searchResults['authors'])
+                setauthorBox(<AuthorBox authorKey={''}/>)
         }
 
     }, [searchResults]);
 
+    /**
+     * SE TIVER CAPA BUSCA ELA E ADICIONA
+     */
+    var coverJSX = <View style={styles.image}></View>;
     if ('cover_i' in bookData) {
-        var coverJSX = <View style={styles.image}></View>;
         coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['cover_i']}-L.jpg` }}
             style={styles.image}
             resizeMethod='auto'
             resizeMode='contain' />;
     }
 
-    const titleName = bookData['title']
-    const authorName = bookData['author_name']
+
 
     var lerOuVoltarALer = 'Adicionar na Minha Estante';
+
+    /**
+     * Tenta buscar dados da API
+     */
     try {
-        
         //var apiData = apiRequestWithToken('198.162.0.5:8000');
         // if (apiData) {
         //     lerOuVoltarALer = 'Adicionar Marcação';
@@ -132,23 +151,26 @@ export default function BookPage({ route, navigator }) {
                             </TouchableOpacity>
                             <Text style={styles.titleText}>{titleName}</Text>
                         </View>
-                        <View style={{ flex: 1,
-                        width: 'auto',
-                        height: 'auto',
-                        flexShrink: 0,
-                        alignContent:'center',
-                        alignItems:'center' 
-                         }}>
+                        <View style={{
+                            flex: 1,
+                            width: 'auto',
+                            height: 'auto',
+                            flexShrink: 0,
+                            alignContent: 'center',
+                            alignItems: 'center'
+                        }}>
                             {coverJSX}
 
                         </View>
-                            <View style={styles.container}>
-                                {pagesnum}
-                                <TouchableOpacity style={styles.botaoLerOpacity}>
-                                    <Text style={styles.button}>{lerOuVoltarALer}</Text>
-                                </TouchableOpacity>
-                            </View>
-                            {subList}
+                        {authorBox}
+                        <View style={styles.container}>
+                            {pagesnum}
+                            <TouchableOpacity style={styles.botaoLerOpacity}>
+                                <Text style={styles.button}>{lerOuVoltarALer}</Text>
+                            </TouchableOpacity>
+                        </View>
+                        {descriptionBox}
+                        {subList}
                     </ScrollView>
                 </View>
             </View>
@@ -158,12 +180,12 @@ export default function BookPage({ route, navigator }) {
 }
 
 const styles = StyleSheet.create({
-    pagesText:{
+    pagesText: {
         fontFamily: 'Manjari-Bold',
-        fontSize:18,
-        color:'white',
-        margin:12, 
-        textAlign:'center',
+        fontSize: 18,
+        color: 'white',
+        margin: 12,
+        textAlign: 'center',
     },
     image: {
         marginLeft: 6,
@@ -175,10 +197,10 @@ const styles = StyleSheet.create({
     },
     imagemMenu: {
         marginLeft: 20,
-        marginTop:12
+        marginTop: 12
     },
     container: {
-        marginTop:12,
+        marginTop: 12,
         padding: 3,
         flex: 1,
         flexDirection: 'column',
