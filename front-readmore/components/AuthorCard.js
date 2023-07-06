@@ -6,10 +6,10 @@ export default function AuthorCard({ authorData }) {
   const navigation = useNavigation()
 
   var coverJSX = <View style={styles.image}></View>;
-
+  console.log(JSON.stringify(authorData));
   return (
 
-    <View style={styles.retanguloContainer}>
+    <View style={{flex:1}}>
       <TouchableOpacity onPress={() => navigation.navigate("AuthorPage", { AuthorData: authorData })}>
         <View style={styles.retanguloContainer2}>
           {coverJSX}
