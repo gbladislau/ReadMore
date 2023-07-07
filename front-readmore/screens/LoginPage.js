@@ -28,7 +28,7 @@ export default function LoginPage() {
     };
 
     const postLogin = async () => {
-        const url_post = 'http://192.168.0.5:8000/api/login/'
+        const url_post = 'http://192.168.0.10:8000/api/login/'
         try {
             navigation.navigate("UserHome");
 
@@ -37,14 +37,14 @@ export default function LoginPage() {
             if (response.ok) {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para ${url_post} HTTP ${response.status}`);
                 var responseJSON
-                try { 
-                    responseJSON = await response.json(); 
+                try {
+                    responseJSON = await response.json();
                     console.log(JSON.stringify(responseJSON));
                     AsyncStorage.setItem("acess_token:", JSON.stringify(responseJSON.access))
                     console.log(JSON.stringify(responseJSON.access))
                     navigation.navigate("UserHome");
                 }
-                catch (erro) { 
+                catch (erro) {
                     console.log(erro)
                     Alert.alert("Erro interno, tente novamente")
                 }
