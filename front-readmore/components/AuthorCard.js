@@ -7,10 +7,11 @@ export default function AuthorCard({ authorData }) {
     console.log("ENTROU AQUI\n\n\n\n");
     console.log(JSON.stringify(authorData));
 
-    const imageUrl = authorData?.photos?.[0]?.large;
+    const imageopt = authorData?.photos?.[0];
+    console.log(imageopt);
     const authorName = authorData?.personal_name;
-    const coverJSX = imageUrl ? (
-        <Image source={{ uri: imageUrl }} style={styles.image} />
+    const coverJSX = imageopt ? (
+        <Image source={{ uri: `https://covers.openlibrary.org/a/id/${imageopt}-M.jpg` }} style={styles.image} />
     ) : (
         <View style={styles.image}></View>
     );
@@ -32,21 +33,20 @@ export default function AuthorCard({ authorData }) {
 const styles = StyleSheet.create({
     card:
     {
-
-        margin: 10,
-        width: "90%",
+        width: "100%",
         borderRadius: 25,
         height: 'auto',
         alignItems: "center",
+        alignSelf:'center',
         justifyContent: "center",
-        backgroundColor: "#2938C4"
+  
     },
     textTitle: {
         display: 'flex',
         width: 190,
-        margin: 12,
-        fontFamily: 'Manjari-Bold',
-        fontSize: 16
+        fontFamily: 'Manjari-regular',
+        fontSize: 20,
+        color:'white'
     },
     textAuthor: {
         display: 'flex',
