@@ -106,7 +106,8 @@ export default function BookPage({ route }) {
                 setdescriptionBox(<DescriptionBox descriptionString={searchResults['description']}/>)
 
             if( searchResults['authors'])
-                setauthorBox(<AuthorBox authorKey={searchResults['authors']}/>)
+                console.log(searchResults['authors']);
+                setauthorBox(<AuthorBox authorsArray={searchResults['authors']}/>)
         }
 
     }, [searchResults]);

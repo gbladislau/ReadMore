@@ -1,63 +1,71 @@
-import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, View, Linking } from 'react-native';
-import Hyperlink from 'react-native-hyperlink'
-import { styles } from '../styles/GreyBoxStyle';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Text, View, Linking, StyleSheet } from 'react-native';
 import AuthorCard from './AuthorCard';
 
+import { styles } from '../styles/GreyBoxStyle';
 
-export default function AuthorBox({ authorKey: authorsArray }) {
-    const [authorData, setauthorData] = useState();
+export default function AuthorBox({ authorsArray }) {
     console.log(authorsArray);
+    const [authorDataArray, setAuthorDataArray] = useState([]);
+
     const fetchAuthorData = async (key) => {
-        console.log('Busca + dados sobre o autor ');
-        console.log(key);
-        const url_ = `https://openlibrary.org${key}.json`;
+        const url = `https://openlibrary.org${key}.json`;
+
         try {
-            var response = await fetch(url_);
+            const response = await fetch(url);
+
             if (response.ok) {
-                console.log(`Sucesso na requisição GET para ${url_} HTTP ${response.status}`);
-
-                try {
-                    var responseJSON = await response.json();
-                    setauthorData(responseJSON);
-                }
-                catch (e) {
-                    console.log(e)
-                }
+                const responseJSON = await response.json();
+                console.log(JSON.stringify(responseJSON));
+                return responseJSON;
+            } else {
+                console.log(`Falha na requisição GET para ${url} HTTP ${response.status}`);
+                return null;
             }
-            else {
-                console.log(`Falha na requisição GET para ${url_} HTTP ${response.status}`);
-            }
+        } catch (error) {
+            console.log(`Erro no GET em ${url}`);
+            console.log(error);
+            return null;
         }
-        catch (erro) {
-            console.log(`Erro no GET em ${url_}`);
-            console.log(erro);
-        }            
-    }
-    const [component, setComponent] = useState(<Text style={styles.text}>Indisponível</Text>);
-    
+    };
+
     useEffect(() => {
-        setComponent(<AuthorCard key={Math.random()} authorData={authorData}/>);
-    }, [authorData]);
+        const fetchAuthorDataForArray = async () => {
+            try {
+                const authorDataArray = [];
 
-    useEffect(()=>{
-        if (authorsArray) {
-            var authorCards = authorsArray.map( (item,i) =>{
-                console.log((item));
-                try {
-                    fetchAuthorData(item['author']['key'])
-                } catch (error) {
-                    console.log(error);
+                for (let i = 0; i < authorsArray.length; i++) {
+                    const authorKey = authorsArray[i].author.key;
+                    console.log(authorKey);
+                    try {
+                        const authorData = await fetchAuthorData(authorKey);
+                        authorDataArray.push(authorData);
+                    } catch (error) {
+                        console.log(error);
+                    }
                 }
-            })
+
+                setAuthorDataArray(authorDataArray);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        if (authorsArray) {
+            fetchAuthorDataForArray();
         }
-    },[]);
+    }, []);
 
     return (
         <View style={styles.caixa}>
             <Text style={styles.titleText}>Autores:</Text>
-            {component}
+            {authorDataArray.length > 0 ? (
+                authorDataArray.map((authorData) => (
+                    <AuthorCard key={authorData.key} authorData={authorData} />
+                ))
+            ) : (
+                <Text style={styles.text}>Indisponível</Text>
+            )}
         </View>
     );
 }
