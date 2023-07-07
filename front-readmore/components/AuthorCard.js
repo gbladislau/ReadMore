@@ -16,7 +16,7 @@ export default function AuthorCard({ authorData }) {
     );
 
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("AuthorPage", { AuthorData: authorData })}>
+        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("AuthorPage", { authorData: authorData })}>
             <View style={styles.retanguloContainer2}>
                 {coverJSX}
                 {authorName && (
