@@ -1,28 +1,36 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-    
+
 class BookManager(models.Manager):
-    
-    def create_book(self, title,opl_key,status):
-        book = self.create(title=title,opl_key=opl_key,status=status,pages_read=0)
+    use_in_migration = True
+
+    def create_book(self, title, opl_key, author_name, cover_i, status):
+        book = self.create(title=title, opl_key=opl_key,
+                           author_name=author_name, cover_i=cover_i,
+                           status=status, pages_read=0)
         # do something with the book
         return book
-    
+
+
 class BookData(models.Model):
-    title = models.CharField(max_length=255, unique=False)
-    opl_key = models.CharField(max_length=255, unique=True)
+    opl_key = models.CharField(unique=True)
+    title = models.CharField()
+    cover_i = models.CharField()
+    author_name = models.CharField()
+
     status = models.CharField(max_length=200)
     pages_read = models.IntegerField()
-    
+
     def __str__(self):
-        return self.name
+        return self.title
+
 
 class UserManager(BaseUserManager):
 
     use_in_migration = True
 
-    def create_user(self,username , email, password=None, **extra_fields):
+    def create_user(self, username, email, password=None, **extra_fields):
         if not email:
             raise ValueError('Email is Required')
         user = self.model(email=self.normalize_email(email), **extra_fields)
@@ -53,12 +61,11 @@ class UserData(AbstractBaseUser):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
     books_list = []
-    
+
     objects = UserManager()
-    
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.name
-
