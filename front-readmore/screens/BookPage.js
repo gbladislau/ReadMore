@@ -166,7 +166,7 @@ export default function BookPage({ route }) {
                         {authorBox}
                         <View style={styles.container}>
                             {pagesnum}
-                            <TouchableOpacity style={styles.botaoLerOpacity}>
+                            <TouchableOpacity style={styles.botaoLerOpacity} onPress={apiRequestWithToken('192.168.0.5:8000/api/addbook/')}>
                                 <Text style={styles.button}>{lerOuVoltarALer}</Text>
                             </TouchableOpacity>
                         </View>

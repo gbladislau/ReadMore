@@ -14,10 +14,10 @@ class BookManager(models.Manager):
 
 
 class BookData(models.Model):
-    opl_key = models.CharField(unique=True)
-    title = models.CharField()
-    cover_i = models.CharField()
-    author_name = models.CharField()
+    opl_key = models.CharField(max_length=200,unique=True)
+    title = models.CharField(max_length=200,unique=False)
+    cover_i = models.CharField(max_length=200,unique=False)
+    author_name = models.CharField(max_length=200,unique=False)
 
     status = models.CharField(max_length=200)
     pages_read = models.IntegerField()
