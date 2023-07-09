@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Alert } from "react-native";
 import InputBox from "../components/InputBox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {API_URL} from '@env'
 
 /**
  *  Pagina onde faz o login do usuário, aqui usamos componentes 
@@ -28,11 +29,9 @@ export default function LoginPage() {
     };
 
     const postLogin = async () => {
-        const url_post = 'http://192.168.0.10:8000/api/login/'
+        const url_post = `${API_URL}/api/login/`
         try {
-            navigation.navigate("UserHome");
-
-
+            //navigation.navigate("UserHome");
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para ${url_post} HTTP ${response.status}`);
@@ -40,7 +39,7 @@ export default function LoginPage() {
                 try {
                     responseJSON = await response.json();
                     console.log(JSON.stringify(responseJSON));
-                    AsyncStorage.setItem("acess_token:", JSON.stringify(responseJSON.access))
+                    AsyncStorage.setItem("access_token", JSON.stringify(responseJSON.access))
                     console.log(JSON.stringify(responseJSON.access))
                     navigation.navigate("UserHome");
                 }

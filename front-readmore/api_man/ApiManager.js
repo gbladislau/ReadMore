@@ -40,14 +40,17 @@ export const apiRequestWithToken = async (uri, data) => {
 
 export const apiPost = async (uri,data) => {
 
-    var TOKEN = AsyncStorage.getItem('acess_token');
+    var TOKEN = await AsyncStorage.getItem('access_token');
 
     const requestOptions = {
         method: 'POST',
-        headers: { 'Authorization': 'Bearer ' + TOKEN },
-        body: data
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + TOKEN.replace(/"/g, '')
+        },
+        body: JSON.stringify(data)
     };
-
+    console.log(requestOptions);
     try {
         var response = await fetch(uri, requestOptions);
         if (response.ok) {
