@@ -1,14 +1,14 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Text, Touchable, Button, TouchableHighlight, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { API_URL } from '@env';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiRequestWithToken } from '../api_man/ApiManager';
 import SubjectsBox from '../components/SubjectsList';
 import DescriptionBox from '../components/DescriptionBox';
 import AuthorBox from '../components/AuthorBox';
-import { API_URL } from 'react-native-dotenv';
-
+import { apiPost } from '../api_man/ApiManager';
 /**
  * Pagina de livro, recebe parametros pelo route e exibe pagina especifica 
  * para cada livro disponivel na api
