@@ -6,8 +6,11 @@ EXPOSE 19000
 
 COPY package.json .
 COPY package-lock.json .
+COPY .env .
+COPY updateEnv.js .
 
 RUN npm install 
+RUN node updateEnv.js
 
 # COPY . .
 

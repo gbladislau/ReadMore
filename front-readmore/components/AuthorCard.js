@@ -4,11 +4,10 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function AuthorCard({ authorData }) {
     const navigation = useNavigation()
-    console.log("ENTROU AQUI\n\n\n\n");
-    console.log(JSON.stringify(authorData));
+    //console.log(JSON.stringify(authorData));
 
     const imageopt = authorData?.photos?.[0];
-    console.log(imageopt);
+    //console.log(imageopt);
     const authorName = authorData?.personal_name;
     const coverJSX = imageopt ? (
         <Image source={{ uri: `https://covers.openlibrary.org/a/id/${imageopt}-M.jpg` }} style={styles.image} />

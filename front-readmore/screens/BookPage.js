@@ -1,15 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Text, Touchable, Button, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Image, Text, Touchable, Button, TouchableHighlight, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiRequestWithToken } from '../api_man/ApiManager';
 import SubjectsBox from '../components/SubjectsList';
 import DescriptionBox from '../components/DescriptionBox';
 import AuthorBox from '../components/AuthorBox';
+import { API_URL } from 'react-native-dotenv';
 
 /**
- * Pagina de livro, recebe parametros pelo route e cria pagina com eles
+ * Pagina de livro, recebe parametros pelo route e exibe pagina especifica 
+ * para cada livro disponivel na api
  * @param {Array} param0 
  * @returns 
  */
@@ -78,7 +80,7 @@ export default function BookPage({ route }) {
      */
     useEffect(() => {
         if (searchResults) {
-            console.log("\nUpdated searchResults:\n", searchResults);
+            //console.log("\nUpdated searchResults:\n", searchResults);
             var pgnum = -1;
 
             if (searchResults['excerpts'] != null) {
@@ -103,11 +105,11 @@ export default function BookPage({ route }) {
                 setSubList(<SubjectsBox subjectsArray={searchResults['subjects']} />)
 
             if (searchResults['description'])
-                setdescriptionBox(<DescriptionBox descriptionString={searchResults['description']}/>)
+                setdescriptionBox(<DescriptionBox descriptionString={searchResults['description']} />)
 
-            if( searchResults['authors'])
+            if (searchResults['authors'])
                 console.log(searchResults['authors']);
-                setauthorBox(<AuthorBox authorsArray={searchResults['authors']}/>)
+            setauthorBox(<AuthorBox authorsArray={searchResults['authors']} />)
         }
 
     }, [searchResults]);
@@ -128,18 +130,22 @@ export default function BookPage({ route }) {
     var lerOuVoltarALer = 'Adicionar na Minha Estante';
 
     /**
-     * Tenta buscar dados da API
+     * Tenta buscar dados da API para ver se o livro atual está ou não 
+     * na estante
      */
-    try {
-        //var apiData = apiRequestWithToken('198.162.0.5:8000');
-        // if (apiData) {
-        //     lerOuVoltarALer = 'Adicionar Marcação';
-        //     apiData
-        // }
-    }
-    catch (erro) {
-        console.log(erro);
-    }
+    useEffect(() => {
+        try 
+        {
+            var rData = {'opl_key': bookKey};
+            var apiData = apiRequestWithToken('http://198.162.15.17:8000/hasbook/',rData);
+            if (apiData?.hasBook) {
+                lerOuVoltarALer = 'Adicionar Marcação';
+            }
+        }
+        catch (erro) {
+            console.log(erro);
+        }
+    }, [])
 
     return (
         <SafeAreaView style={styles.background}>
@@ -148,6 +154,7 @@ export default function BookPage({ route }) {
                     <ScrollView>
                         <View style={{ flex: 1, width: 'auto', height: 'auto', flexShrink: 0, flexDirection: 'row' }}>
                             <TouchableOpacity onPress={navigation.openDrawer}>
+                                {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
                                 <Image style={styles.imagemMenu} source={require('../assets/menu2.png')} />
                             </TouchableOpacity>
                             <Text style={styles.titleText}>{titleName}</Text>
@@ -165,11 +172,21 @@ export default function BookPage({ route }) {
                         </View>
                         {authorBox}
                         <View style={styles.container}>
+                            {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
                             {pagesnum}
-                            <TouchableOpacity style={styles.botaoLerOpacity} onPress={apiRequestWithToken('192.168.0.5:8000/api/addbook/')}>
+                            <TouchableOpacity
+                                style={styles.botaoLerOpacity}
+                                onPress={() => apiPost(`${API_URL}/api/addbook/`, {
+                                    title: titleName,
+                                    author_name: authorName,
+                                    opl_key: bookKey,
+                                    status: 'reading',
+                                    cover_i:bookData?.cover_i,
+                                })}>
                                 <Text style={styles.button}>{lerOuVoltarALer}</Text>
                             </TouchableOpacity>
                         </View>
+                        {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
                         {descriptionBox}
                         {subList}
                     </ScrollView>

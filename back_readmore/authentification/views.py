@@ -39,8 +39,7 @@ def addbook(request: HttpRequest):
 
         json_data = json.loads(str(request.body, encoding='utf-8'))
 
-        access_token_obj = AccessToken(
-            json_data['Authorization'].split(' ')[1])
+        access_token_obj = AccessToken(request.headers.Authorization)
         user_id = access_token_obj['user_id']
         user = User.objects.get(id=user_id)
 
@@ -58,6 +57,32 @@ def addbook(request: HttpRequest):
         user.save(update_fields=['books_list'])
 
         return Response(data="Book Criado e adicionado a shelf de um user")
+
+    else:
+        return HttpResponseBadRequest()
+
+
+@api_view(['POST',])
+def hasbook(request: HttpRequest):
+
+    if request.method == 'POST':
+
+        serializer = BookSerealizer()
+
+        json_data = json.loads(str(request.body, encoding='utf-8'))
+
+        access_token_obj = AccessToken(request.headers.Authorization)
+        user_id = access_token_obj['user_id']
+        user = User.objects.get(id=user_id)
+
+        opl_key = json_data['opl_key']
+        
+        for book in user.books_list:
+            if book.opl_key == opl_key:
+                return Response(data={'hasBook':True})
+            
+        return Response(data={'hasBook':False})
+
 
     else:
         return HttpResponseBadRequest()
