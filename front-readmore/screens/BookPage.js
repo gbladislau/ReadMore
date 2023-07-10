@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
-import { View, StyleSheet, Image, Text, TouchableOpacity, ActivityIndicator, Alert } from 'react-native';
+import { View, StyleSheet, Image, Text, TouchableOpacity, ActivityIndicator, Alert, Modal } from 'react-native';
 import { API_URL } from '@env';
 import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -28,7 +28,15 @@ export default function BookPage({ route }) {
     const [subList, setSubList] = useState(<View />);
     const [descriptionBox, setdescriptionBox] = useState(<View />);
 
+    const [hasBook, setHasBook] = useState(false);
+    const [lerOuVoltarALer, setLerOuVoltarALer] = useState("Adicionar a Minha Estante");
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [pagesRead, setPagesRead] = useState("");
+    const toggleModal = () => {
+        setIsModalVisible(!isModalVisible);
+    };
 
+    const [buttonAction, setbuttonAction] = useState();
 
     const bookKey = bookData['key'];
     const titleName = bookData['title'];
@@ -38,8 +46,8 @@ export default function BookPage({ route }) {
      * Busca mais dados sobre o livro
      */
     const fetchBookData = async () => {
-        console.log('Busca + dados sobre o livro ');
-        console.log(bookData['key']);
+        // console.log('Busca + dados sobre o livro ');
+        // console.log(bookData['key']);
         const url_ = `https://openlibrary.org${bookData['key']}.json`;
         try {
             setLoading(true)
@@ -85,31 +93,30 @@ export default function BookPage({ route }) {
 
             if (searchResults['excerpts'] != null) {
                 searchResults['excerpts'].map(item => {
-                    console.log("\n\n");
-                    console.log(item);
-                    console.log("\n\n");
+                    // console.log(item);
                     if ('pages' in item) {
                         pgnum = parseInt(item.pages);
-                        console.log("ACHOU");
-                        console.log(item.pages);
+                        //console.log("ACHOU");
+                        //console.log(item.pages);
                     }
                 });
 
-                console.log(pgnum);
+                //console.log(pgnum);
 
                 if (pgnum != -1)
                     setpagesnum(<Text style={styles.pagesText}>Número de Páginas: {pgnum}</Text>);
             }
 
             if (searchResults['subjects'] != null)
-                setSubList(<SubjectsBox subjectsArray={searchResults['subjects']} />)
+                setSubList(<SubjectsBox subjectsArray={searchResults['subjects']} />);
 
             if (searchResults['description'])
                 setdescriptionBox(<DescriptionBox descriptionString={searchResults['description']} />)
 
-            if (searchResults['authors'])
-                console.log(searchResults['authors']);
-            setauthorBox(<AuthorBox authorsArray={searchResults['authors']} />)
+            if (searchResults['authors']) {
+                //console.log(searchResults['authors']);
+                setauthorBox(<AuthorBox authorsArray={searchResults['authors']} />);
+            }
         }
 
     }, [searchResults]);
@@ -123,29 +130,44 @@ export default function BookPage({ route }) {
             style={styles.image}
             resizeMethod='auto'
             resizeMode='contain' />;
-    }
+    };
 
-
-
-    var lerOuVoltarALer = 'Adicionar na Minha Estante';
 
     /**
      * Tenta buscar dados da API para ver se o livro atual está ou não 
      * na estante
      */
     useEffect(() => {
-        try 
-        {
-            var rData = {'opl_key': bookKey};
-            var apiData = apiRequestWithToken('http://198.162.15.17:8000/hasbook/',rData);
-            if (apiData?.hasBook) {
-                lerOuVoltarALer = 'Adicionar Marcação';
-            }
+
+        if (hasBook.hasBook == true) {
+            setLerOuVoltarALer("Adicionar Marcação");
+            console.log("entrou");
+        }
+    }, [hasBook]);
+
+    useEffect(() => {
+        try {
+            var rData = { 'opl_key': bookKey };
+            apiPost(`${API_URL}/api/hasbook/`, JSON.stringify(rData), setHasBook);
+
         }
         catch (erro) {
             console.log(erro);
         }
-    }, [])
+    }, []);
+
+    const saveBookData = {
+
+        'title': titleName,
+        'author_name': (authorName),
+        'opl_key': (bookKey),
+        'status': 'reading',
+        'cover_i': (bookData?.cover_i),
+    };
+
+    const handleSavePagesRead = ()=>{
+        apiPost(`${API_URL}/api/update_book/`,{'opl_key':bookKey,'pages_read':pagesRead})
+    };
 
     return (
         <SafeAreaView style={styles.background}>
@@ -176,18 +198,46 @@ export default function BookPage({ route }) {
                             {pagesnum}
                             <TouchableOpacity
                                 style={styles.botaoLerOpacity}
-                                onPress={() => apiPost(`${API_URL}/api/addbook/`, {
-                                    title: titleName,
-                                    author_name: authorName,
-                                    opl_key: bookKey,
-                                    status: 'reading',
-                                    cover_i:bookData?.cover_i,
-                                })}>
+                                onPress={() => {
+                                    if (hasBook)
+                                        apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData));
+                                    else {
+                                        toggleModal;
+                                    }
+                                }}>
+
                                 <Text style={styles.button}>{lerOuVoltarALer}</Text>
                             </TouchableOpacity>
+                            <Modal
+                                animationType="slide"
+                                transparent={true}
+                                visible={isModalVisible}
+                                onRequestClose={toggleModal}>
+                                <View style={styles.modalContainer}>
+                                    <View style={styles.modalContent}>
+                                        <Text style={styles.modalTitle}>Número de Páginas Lidas</Text>
+                                        <TextInput
+                                            style={styles.modalInput}
+                                            keyboardType="numeric"
+                                            placeholder="Digite o número de páginas lidas"
+                                            value={pagesRead}
+                                            onChangeText={setPagesRead}
+                                        />
+                                        <TouchableOpacity
+                                            style={styles.modalButton}
+                                            onPress={handleSavePagesRead}
+                                        >
+                                            <Text style={styles.modalButtonText}>Salvar</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+                            </Modal>
                         </View>
+
                         {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
+
                         {descriptionBox}
+
                         {subList}
                     </ScrollView>
                 </View>

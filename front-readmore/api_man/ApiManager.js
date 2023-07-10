@@ -12,7 +12,7 @@ export const apiRequestWithToken = async (uri, data) => {
     const requestOptions = {
         method: 'GET',
         headers: { 'Authorization': 'Bearer ' + TOKEN },
-        body: data
+        body: (data)
     };
 
     try {
@@ -38,19 +38,18 @@ export const apiRequestWithToken = async (uri, data) => {
     }
 }
 
-export const apiPost = async (uri,data) => {
+export const apiPost = async (uri,data,set) => {
 
     var TOKEN = await AsyncStorage.getItem('access_token');
-
     const requestOptions = {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + TOKEN.replace(/"/g, '')
         },
-        body: JSON.stringify(data)
+        body: data,
     };
-    console.log(requestOptions);
+    
     try {
         var response = await fetch(uri, requestOptions);
         if (response.ok) {
@@ -60,6 +59,8 @@ export const apiPost = async (uri,data) => {
             catch (erro) {
                 console.log(erro);
             }
+            console.log(responseJSON);
+            set(responseJSON);
         }
         else {
             console.log(`Falha na requisição ${requestOptions["method"]} para ${uri} HTTP ${response.status}`)

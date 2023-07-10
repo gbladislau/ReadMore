@@ -42,6 +42,7 @@ export default function LoginPage() {
                     AsyncStorage.setItem("access_token", JSON.stringify(responseJSON.access))
                     console.log(JSON.stringify(responseJSON.access))
                     navigation.navigate("UserHome");
+
                 }
                 catch (erro) {
                     console.log(erro)

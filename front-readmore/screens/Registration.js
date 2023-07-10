@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Text, SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import InputBox from "../components/InputBox";
+import {API_URL} from "@env"
 
 /**
  * SCREEN DE CADASTRO DE USUÁRIO
@@ -29,7 +30,7 @@ export default function Registration() {
     };
 
     const postCadastro = async () => {
-        const url_post = 'http://192.168.0.5:8000/api/register/'
+        const url_post = `${API_URL}/api/register/`
         try {
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {
@@ -39,7 +40,8 @@ export default function Registration() {
                 catch (erro) { 
                     console.log(erro);
                 }
-                navigation.navigate("UserHome");
+                Alert.alert("Usuário Criado com Sucesso!");
+                navigation.navigate("Login");
             }
             else {
                 console.log(`Falha na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`)

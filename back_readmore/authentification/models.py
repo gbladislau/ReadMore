@@ -2,57 +2,45 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
-class BookManager(models.Manager):
-    use_in_migration = True
-
-    def create_book(self, title, opl_key, author_name, cover_i, status):
-        book = self.create(title=title, opl_key=opl_key,
-                           author_name=author_name, cover_i=cover_i,
-                           status=status, pages_read=0)
-        # do something with the book
-        return book
-
-
-class BookData(models.Model):
-    opl_key = models.CharField(max_length=200,unique=True)
-    title = models.CharField(max_length=200,unique=False)
-    cover_i = models.CharField(max_length=200,unique=False)
-    author_name = models.CharField(max_length=200,unique=False)
-
+class Book(models.Model):
+    opl_key = models.CharField(max_length=200, unique=True)
+    title = models.CharField(max_length=200)
+    cover_i = models.CharField(max_length=200)
+    author_name = models.CharField(max_length=200)
     status = models.CharField(max_length=200)
-    pages_read = models.IntegerField()
+    pages_read = models.IntegerField(default=0)
+    user = models.ForeignKey('UserData', on_delete=models.CASCADE, related_name='books_list')
 
     def __str__(self):
         return self.title
 
 
 class UserManager(BaseUserManager):
+    use_in_migrations = True
 
-    use_in_migration = True
-
-    def create_user(self, username, email, password=None, **extra_fields):
+    def create_user(self, email, password=None, **extra_fields):
         if not email:
-            raise ValueError('Email is Required')
-        user = self.model(email=self.normalize_email(email), **extra_fields)
+            raise ValueError('Email is required')
+        email = self.normalize_email(email)
+        user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password, **extra_fields):
+    def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('is_active', True)
 
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff = True')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser = True')
+        if not extra_fields.get('is_staff'):
+            raise ValueError('Superuser must have is_staff=True')
+        if not extra_fields.get('is_superuser'):
+            raise ValueError('Superuser must have is_superuser=True')
 
         return self.create_user(email, password, **extra_fields)
 
 
 class UserData(AbstractBaseUser):
-
     name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -60,7 +48,6 @@ class UserData(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
-    books_list = []
 
     objects = UserManager()
 
@@ -69,3 +56,5 @@ class UserData(AbstractBaseUser):
 
     def __str__(self):
         return self.name
+
+

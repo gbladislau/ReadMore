@@ -5,7 +5,7 @@ import AuthorCard from './AuthorCard';
 import { styles } from '../styles/GreyBoxStyle';
 
 export default function AuthorBox({ authorsArray }) {
-    console.log(authorsArray);
+    //console.log(authorsArray);
     const [authorDataArray, setAuthorDataArray] = useState([]);
 
     const fetchAuthorData = async (key) => {
@@ -16,7 +16,7 @@ export default function AuthorBox({ authorsArray }) {
 
             if (response.ok) {
                 const responseJSON = await response.json();
-                console.log(JSON.stringify(responseJSON));
+                //console.log(JSON.stringify(responseJSON));
                 return responseJSON;
             } else {
                 console.log(`Falha na requisição GET para ${url} HTTP ${response.status}`);
@@ -36,7 +36,7 @@ export default function AuthorBox({ authorsArray }) {
 
                 for (let i = 0; i < authorsArray.length; i++) {
                     const authorKey = authorsArray[i].author.key;
-                    console.log(authorKey);
+                    //console.log(authorKey);
                     try {
                         const authorData = await fetchAuthorData(authorKey);
                         authorDataArray.push(authorData);
