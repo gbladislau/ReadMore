@@ -93,8 +93,11 @@ export default function BookPage({ route }) {
 
             if (searchResults['excerpts'] != null) {
                 searchResults['excerpts'].map(item => {
+                    // console.log(item);
                     if ('pages' in item) {
                         pgnum = parseInt(item.pages);
+                        //console.log("ACHOU");
+                        //console.log(item.pages);
                     }
                 });
 
@@ -171,7 +174,7 @@ export default function BookPage({ route }) {
         <SafeAreaView style={styles.background}>
             <View style={{ width: 'auto', height: 'auto', alignItems: 'center' }}>
                 <View style={styles.retanguloContainer}>
-                    <ScrollView style={{marginTop: 10,marginBottom:10}}>
+                    <ScrollView>
                         <View style={{ flex: 1, width: 'auto', height: 'auto', flexShrink: 0, flexDirection: 'row' }}>
                             <TouchableOpacity onPress={navigation.openDrawer}>
                                 <Image style={styles.imagemMenu} source={require('../assets/menu2.png')} />
@@ -193,7 +196,7 @@ export default function BookPage({ route }) {
                                     if (!hasBook?.hasBook)
                                         apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData),()=>'');
                                     else {
-                                        toggleModal();
+                                        toggleModal;
                                     }
                                 }}>
 
@@ -214,21 +217,12 @@ export default function BookPage({ route }) {
                                             value={pagesRead}
                                             onChangeText={setPagesRead}
                                         />
-                                        <View style={styles.buttonContainer}>
-                                            <TouchableOpacity
-                                                style={styles.modalButtonOut}
-                                                onPress={toggleModal}
-                                            >
-                                            <Text style={styles.modalButtonText}>Voltar</Text>
-                                            </TouchableOpacity>
-                                            <TouchableOpacity
-                                                style={styles.modalButton}
-                                                onPress={handleSavePagesRead}
-                                            >
-                                                <Text style={styles.modalButtonText}>Salvar</Text>
-                                            </TouchableOpacity>
-                                            
-                                        </View>
+                                        <TouchableOpacity
+                                            style={styles.modalButton}
+                                            onPress={handleSavePagesRead}
+                                        >
+                                            <Text style={styles.modalButtonText}>Salvar</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </Modal>
@@ -285,6 +279,7 @@ const styles = StyleSheet.create({
     },
     botaoLerOpacity:
     {
+
         margin: 10,
         width: "90%",
         borderRadius: 25,
@@ -327,50 +322,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#070558',
         flex: 1,
     },
-    modalContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
-      },
-      modalContent: {
-        backgroundColor: "white",
-        padding: 20,
-        borderRadius: 10,
-        alignItems: "center",
-      },
-      modalTitle: {
-        fontSize: 18,
-        fontWeight: "bold",
-        marginBottom: 10,
-      },
-      modalInput: {
-        width: "100%",
-        height: 40,
-        borderColor: "gray",
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-      },
-      modalButton: {
-        backgroundColor: "#2938C4",
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-      },
-      modalButtonOut: {
-        backgroundColor: "red",
-        paddingVertical: 10,
-        paddingHorizontal: 20,
-        borderRadius: 5,
-      },
-      modalButtonText: {
-        color: "white",
-        fontWeight: "bold",
-      },
-     buttonContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-around',
-        marginTop: 10,
-      },
 })

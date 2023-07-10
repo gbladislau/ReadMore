@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, Alert, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { StyleSheet, Dimensions, Alert, View, Text, Image, TouchableOpacity, ActivityIndicator, Switch } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ResultsList from '../components/ResultsList';
@@ -10,7 +10,9 @@ function SearchResults({ route, navigation }) {
 
     const [loading, setLoading] = useState(false);
     const [searchResults, setSearchResults] = useState();
-    const [bookList, setBookList] = useState(<View />);
+    const [searchList, setSearchList] = useState(<View />);
+
+
 
     const fetchSearch = async () => {
         //console.log('\n\n\n\nCHAMOU \n\n');
@@ -52,7 +54,7 @@ function SearchResults({ route, navigation }) {
     useEffect(() => {
         if (searchResults) {
             console.log("\nUpdated searchResults:\n", searchResults);
-            setBookList(<ResultsList searchResults={searchResults} isBook={true} />);
+            setSearchList(<ResultsList searchResults={searchResults} isBook={true} />);
         }
     }, [searchResults]);
 
@@ -62,14 +64,14 @@ function SearchResults({ route, navigation }) {
             <View style={styles.retanguloContainer}>
                 <Text style={styles.titleText}>Busca por: {route.params.searchKey} </Text>
 
-                {loading && (<ActivityIndicator  size="large" style={styles.loading}></ActivityIndicator>)}
+                {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
 
                 <TouchableOpacity style={styles.imagem} onPress={() => navigation.goBack()}>
                     <Image source={require('../assets/back.png')} />
                 </TouchableOpacity>
                 <ScrollView style={styles.scrollStyle}>
                     <View style={styles.resultsView}>
-                        {bookList}
+                        {searchList}
                     </View>
                 </ScrollView>
             </View>
@@ -116,12 +118,12 @@ const styles = StyleSheet.create({
     },
     scrollStyle: {
         marginTop: 30,
-        marginBottom:45
+        marginBottom: 45
     },
-    loading:{
+    loading: {
 
-        marginTop:40,
-    },  
+        marginTop: 40,
+    },
 })
 
 export default SearchResults;
