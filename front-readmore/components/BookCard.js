@@ -10,6 +10,9 @@ export default function BookCard({ bookData }) {
   if ('cover_i' in bookData) {
     coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['cover_i']}-M.jpg` }} style={styles.image} />;
   }
+  else if ('covers' in bookData) {
+    coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers']}-M.jpg` }} style={styles.image} />;
+  }
 
   return (
 
