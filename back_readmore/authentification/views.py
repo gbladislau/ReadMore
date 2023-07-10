@@ -3,7 +3,7 @@ from .serializers import UserSerializer, BookSerealizer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from rest_framework_simplejwt.tokens import AccessToken
-from django.contrib.auth.models import User
+from .models import UserData
 import json
 
 
@@ -34,14 +34,14 @@ def signup(request: HttpRequest):
 def addbook(request: HttpRequest):
 
     if request.method == 'POST':
-
+        print("ERRO")
         serializer = BookSerealizer()
 
         json_data = json.loads(str(request.body, encoding='utf-8'))
 
-        access_token_obj = AccessToken(request.headers.Authorization)
-        user_id = access_token_obj['user_id']
-        user = User.objects.get(id=user_id)
+        access_token = AccessToken(request.META.get('HTTP_AUTHORIZATION', '').split('Bearer ')[1])
+        user_id = access_token['user_id']
+        user = UserData.objects.get(id=user_id)
 
         data = {
             'title': json_data['title'],
