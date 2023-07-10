@@ -1,5 +1,5 @@
 
-import { View, StyleSheet } from 'react-native';
+import { View } from 'react-native';
 import BookCard from './BookCard';
 
 export default function BooksResults({ searchResults }) {
@@ -15,5 +15,3 @@ export default function BooksResults({ searchResults }) {
     );
 
 }
-
-const styles = StyleSheet.create({})
