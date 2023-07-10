@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, ActivityIndicator, Alert, Modal } from 'react-native';
 import { API_URL } from '@env';
-import { ScrollView } from 'react-native-gesture-handler';
+import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiRequestWithToken } from '../api_man/ApiManager';
 import SubjectsBox from '../components/SubjectsList';
