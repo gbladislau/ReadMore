@@ -3,6 +3,7 @@ import SearchResults from '../screens/SearchResults';
 import BookPage from '../screens/BookPage';
 import SearchPage from '../screens/SearchPage';
 import AuthorPage from '../screens/AuthorPage';
+import Bookshelf from '../screens/Bookshelf';
 
 const Stack = createStackNavigator();
 

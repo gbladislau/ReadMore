@@ -8,6 +8,9 @@ export default function BookCard({ bookData, hasBook }) {
     const navigation = useNavigation()
     const [paginasLidas, setPaginasLidas] = useState();
     const [authorName, setAuthorName] = useState(bookData['author_name']);
+    const [dataForBookPage, setDataForBookPage] = useState(bookData);
+    
+    var cover_variable;
     var coverJSX = <View style={styles.image}></View>;
 
     if ('cover_i' in bookData) {
@@ -15,20 +18,28 @@ export default function BookCard({ bookData, hasBook }) {
     }
     else if ('covers' in bookData) {
         coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers'][0]}-M.jpg` }} style={styles.image} />;
+       
+        dataForBookPage.push({
+            'cover_variable': ['covers'][0]
+        });
     }
-
-    
 
     useEffect(()=>{
         if(hasBook){
             setPaginasLidas(<Text style={styles.textAuthor}>Leu até pagina {bookData['pages_read']}</Text>);
             setAuthorName(JSON.parse(bookData['author_name'].replace(/'/g, '"')).join(', '));
+            setDataForBookPage({
+                'title':bookData['title'],
+                'author_name':bookData['author_name'],
+                'key':bookData['opl_key'],
+                'cover_i':bookData['cover_i'],
+            })
         }
     },[])
 
     return (
         <View style={styles.retanguloContainer}>
-            <TouchableOpacity onPress={() => navigation.navigate("BookPage", { bookData: bookData })}>
+            <TouchableOpacity onPress={() => navigation.navigate("BookPage", { bookData: dataForBookPage })}>
                 <View style={styles.retanguloContainer2}>
                     {coverJSX}
                     <View style={{ flexDirection: 'column', alignContent: "space-between" }}>

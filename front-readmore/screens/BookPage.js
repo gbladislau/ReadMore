@@ -166,8 +166,7 @@ export default function BookPage({ route }) {
     const handleSavePagesRead = ()=>{
         apiPost(`${API_URL}/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':pagesRead}),()=>{
             Alert.alert("Marcado com Sucesso!")
-            toggleModal()}
-            )
+            toggleModal()})
     };
 
     return (
