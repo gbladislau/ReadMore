@@ -107,9 +107,10 @@ export default function BookPage({ route }) {
             if (searchResults['description'])
                 setdescriptionBox(<DescriptionBox descriptionString={searchResults['description']} />)
 
-            if (searchResults['authors'])
+            if (searchResults['authors']) {
                 console.log(searchResults['authors']);
-            setauthorBox(<AuthorBox authorsArray={searchResults['authors']} />)
+                setauthorBox(<AuthorBox authorsArray={searchResults['authors']} />)
+            }
         }
 
     }, [searchResults]);
@@ -134,10 +135,9 @@ export default function BookPage({ route }) {
      * na estante
      */
     useEffect(() => {
-        try 
-        {
-            var rData = {'opl_key': bookKey};
-            var apiData = apiRequestWithToken('http://198.162.15.17:8000/hasbook/',rData);
+        try {
+            var rData = { 'opl_key': bookKey };
+            var apiData = apiRequestWithToken('http://198.162.15.17:8000/hasbook/', rData);
             if (apiData?.hasBook) {
                 lerOuVoltarALer = 'Adicionar Marcação';
             }
@@ -181,7 +181,7 @@ export default function BookPage({ route }) {
                                     author_name: authorName,
                                     opl_key: bookKey,
                                     status: 'reading',
-                                    cover_i:bookData?.cover_i,
+                                    cover_i: bookData?.cover_i,
                                 })}>
                                 <Text style={styles.button}>{lerOuVoltarALer}</Text>
                             </TouchableOpacity>
