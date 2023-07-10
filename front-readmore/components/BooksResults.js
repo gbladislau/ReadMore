@@ -1,13 +1,12 @@
 
 import { View, StyleSheet } from 'react-native';
 import BookCard from './BookCard';
-import AuthorCard from './AuthorCard';
 
 export default function BooksResults({ searchResults }) {
 
     const component = searchResults['entries'].map((item, i) => {
-
-        return <BookCard key={i} bookData={item} />
+        if ('covers' in item && item.covers != -1)
+            return <BookCard key={i} bookData={item} />
     })
     var componentCards = component;
 

@@ -36,7 +36,7 @@ export default function AuthorPage({ route, navigator }) {
 
   if (authorBio) {
     component = (
-      <Text style={styles.text}>{authorBio}</Text>
+      <Text style={styles.textBio}>{authorBio}</Text>
     );
   }
 
@@ -88,20 +88,14 @@ export default function AuthorPage({ route, navigator }) {
         <View style={styles.retanguloContainer}>
           <ScrollView>
             <View style={styles.authorBox}>
-              {authorName && (
-                <View style={{ flexDirection: 'column', alignContent: "space-between" }}>
-                  <Text style={styles.titleText}>{authorName}</Text>
-                </View>
-              )}
+              <Text style={styles.titleText}>{authorName}</Text>
               {coverJSX}
             </View>
             <View style={styles.bioBox}>
-              <View style={{ flexDirection: 'row' }}>
-                <Text style={styles.titleBio}>Bio:</Text>
-                {component}
-              </View>
+              <Text style={styles.titleBio}>Bio:</Text>
+              {component}
             </View>
-            <View style={{ flex: 1, flexDirection: 'row' }}>
+            <View style={{ flex: 1, flexDirection: 'column' }}>
               <View style={styles.livroBox}>
                 <Text style={styles.titleBio}>livros:</Text>
                 {BooksList}
@@ -121,8 +115,8 @@ const styles = StyleSheet.create({
     borderRadius: 9,
     resizeMode: 'contain',
     resizeMethod: 'resize',
-    width: '70%',
-    height: '60%',
+    width: '80%',
+    height: '70%',
   },
   retanguloContainer: {
     width: '92%',
@@ -147,8 +141,13 @@ const styles = StyleSheet.create({
     width: '70%',
     height: 'auto',
     fontSize: 20,
-    marginTop: 10,
-    marginBottom: 6,
+    fontFamily: 'Manjari-regular',
+  },
+  textBio: {
+    display: 'flex',
+    width: '99%',
+    height: 'auto',
+    fontSize: 15,
     marginLeft: 'auto',
     fontFamily: 'Manjari-regular',
   },
@@ -157,8 +156,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   authorBox: {
-    width: '90%',
-    height: '90%',
+    width: '96%',
+    height: 300,
     marginTop: 12,
     marginBottom: 12,
     padding: 1,
@@ -174,10 +173,10 @@ const styles = StyleSheet.create({
     width: '96%',
     height: 'auto',
     display: 'flex',
-    padding: 1,
+    padding: 5,
     flex: 1,
-    flexDirection: 'column',
-    alignItems: 'center',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
     backgroundColor: 'grey',
     borderRadius: 20,
     marginLeft: 8,
