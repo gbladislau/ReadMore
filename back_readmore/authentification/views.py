@@ -95,8 +95,8 @@ def hasbook(request: HttpRequest):
         opl_key = json_data['opl_key']
         
         has_book = user.books_list.filter(opl_key=opl_key).exists()
-        book = user.books_list.filter(opl_key=opl_key)
-        pages_read = book.pageread
+        book = user.books_list.filter(opl_key=opl_key).first()
+        pages_read = book.pages_read
         return Response(data={'hasBook': has_book,'pages_read':pages_read})
 
     else:
@@ -113,8 +113,10 @@ def update_pages_read(request):
     Returns:
         Resposta: HTTP resposta
     """
-    book_id = request.data.get('book_id')
-    pages_read = request.data.get('pages_read')
+    
+    json_data = json.loads(request.body)
+    book_id = json_data['opl_key']
+    pages_read = json_data['pages_read']
 
     try:
         book = Book.objects.get(id=book_id)
