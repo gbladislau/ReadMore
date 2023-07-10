@@ -21,7 +21,8 @@ export default function AuthorPage({ route, navigator }) {
     const [BooksList, setBooksList] = useState(<View></View>);
 
     const coverJSX = imageopt ? (
-        <Image source={{ uri: `https://covers.openlibrary.org/a/id/${imageopt}-L.jpg` }} style={styles.image} />
+        <Image source={{ uri: `https://covers.openlibrary.org/a/id/${imageopt}-L.jpg` }} style={styles.image}     resizeMethod='auto'
+        resizeMode='contain' />
     ) : (
         <View style={styles.image}></View>
     );
@@ -61,7 +62,7 @@ export default function AuthorPage({ route, navigator }) {
           }
         };
       
-        //fetchauthorbooksData();
+        fetchauthorbooksData();
       }, []);
       
 
@@ -86,10 +87,10 @@ export default function AuthorPage({ route, navigator }) {
                             {component}
                         </View>
                         <View style={{ flex: 1, flexDirection: 'column' }}>
-                            {/* <View style={styles.bioBox}>
+                            <View style={styles.bioBox}>
                                 <Text style={styles.titleBio}>Livros:</Text>
                                 {BooksList}
-                            </View> */}
+                            </View>
                         </View>
                     </ScrollView>
                 </View>
@@ -121,8 +122,10 @@ const styles = StyleSheet.create({
         fontSize: 30,
         marginTop: 10,
         marginBottom: 6,
-        marginLeft: 'auto',
         fontFamily: 'Manjari-regular',
+        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 1,
     },
     titleBio: {
         display: 'flex',

@@ -4,7 +4,7 @@ import AuthorCard from './AuthorCard';
 
 export default function ApiList({ searchResults, isBook }) {
     if (!searchResults || !Array.isArray(searchResults)) {
-        return null; // ou algum componente de carregamento ou mensagem de erro
+        return null; 
     }  
 
     const component = searchResults.map((item, i) => {

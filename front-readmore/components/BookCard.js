@@ -17,17 +17,12 @@ export default function BookCard({ bookData, hasBook }){
         coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['cover_i']}-M.jpg` }} style={styles.image} />;
     }
     else if ('covers' in bookData) {
-        coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers'][0]}-M.jpg` }} style={styles.image} />;
-       
-        setDataForBookPage(prevData => ({
-            ...prevData,
-            cover_variable: bookData['covers'][0]
-          }));          
-          
+        coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers'][0]}-M.jpg` }} style={styles.image} />;          
     }
 
     useEffect(()=>{
         if(hasBook){
+            console.log(bookData['pages_read']);
             setPaginasLidas(<Text style={styles.textAuthor}>Leu até pagina {bookData['pages_read']}</Text>);
             setAuthorName(JSON.parse(bookData['author_name'].replace(/'/g, '"')).join(', '));
             setDataForBookPage({

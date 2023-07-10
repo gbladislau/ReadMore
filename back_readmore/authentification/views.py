@@ -140,10 +140,10 @@ def delete_book(request:HttpRequest):
     Returns:
         Reponse: Resposta HTTP
     """
-    book_id = request.data.get('book_id')
+    book_id = request.data.get('opl_key')
 
     try:
-        book = Book.objects.get(id=book_id)
+        book = Book.objects.get(opl_key=book_id)
         book.delete()
         return Response(data="Livro removido com sucesso")
     except Book.DoesNotExist:

@@ -36,7 +36,8 @@ export default function BookPage({ route }) {
         setIsModalVisible(!isModalVisible);
     };
 
-    const [buttonAction, setbuttonAction] = useState();
+    const [marcacao, setMarcacao] = useState();
+
 
     const bookKey = bookData['key'];
     const titleName = bookData['title'];
@@ -130,7 +131,11 @@ export default function BookPage({ route }) {
             style={styles.image}
             resizeMethod='auto'
             resizeMode='contain' />;
-    };
+    }
+    else if ('covers' in bookData) {
+        coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers'][0]}-M.jpg` }} style={styles.image} />;    
+        bookData.cover_i = bookData['covers'][0];
+    }
 
 
     /**
@@ -144,9 +149,10 @@ export default function BookPage({ route }) {
         }
     }, [hasBook]);
 
+    var rData = { 'opl_key': bookKey };
+
     useEffect(() => {
-        try {
-            var rData = { 'opl_key': bookKey };
+        try { 
             apiPost(`${API_URL}/api/hasbook/`, JSON.stringify(rData), setHasBook);
         }
         catch (erro) {
@@ -164,11 +170,16 @@ export default function BookPage({ route }) {
     };
 
     const handleSavePagesRead = ()=>{
-        apiPost(`${API_URL}/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':pagesRead}),()=>{
+        apiPost(`${API_URL}/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':parseInt(pagesRead)}),()=>{
             Alert.alert("Marcado com Sucesso!")
             toggleModal()})
     };
-
+    const handleRemoveBook = ()=>{
+        apiPost(`${API_URL}/api/delete_book/`,JSON.stringify({'opl_key':bookKey}),()=>{
+            Alert.alert("Removido com Sucesso!")
+            toggleModal()})
+        setHasBook({'hasBook':false, 'pages_read':0})
+    };
     return (
         <SafeAreaView style={styles.background}>
             <View style={{ width: 'auto', height: 'auto', alignItems: 'center' }}>
@@ -187,18 +198,20 @@ export default function BookPage({ route }) {
                         {authorBox}
                         <View style={styles.container}>
                             {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
-                            {hasBook?.hasBook && <Text style={styles.pagesText}> Você Parou na Pagina {pagesRead}</Text>}
+                            {hasBook?.hasBook && <Text style={styles.pagesText_}> Você Parou na Pagina{'\n'}{pagesRead}</Text>}
                             {pagesnum}
                             <TouchableOpacity
                                 style={styles.botaoLerOpacity}
                                 onPress={() => {
                                     if (!hasBook?.hasBook)
-                                        apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData),()=>'');
+                                        apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData),()=>{
+                                            Alert.alert("Adicionado com sucesso");
+                                            setHasBook({'hasBook':true, 'pages_read':0})
+                                        });
                                     else {
-                                        toggleModal;
+                                        toggleModal();
                                     }
                                 }}>
-
                                 <Text style={styles.button}>{lerOuVoltarALer}</Text>
                             </TouchableOpacity>
                             <Modal
@@ -216,12 +229,26 @@ export default function BookPage({ route }) {
                                             value={pagesRead}
                                             onChangeText={setPagesRead}
                                         />
-                                        <TouchableOpacity
-                                            style={styles.modalButton}
-                                            onPress={handleSavePagesRead}
-                                        >
-                                            <Text style={styles.modalButtonText}>Salvar</Text>
-                                        </TouchableOpacity>
+                                        <View style={{flexDirection:'row'}}>
+                                            <TouchableOpacity
+                                                style={styles.modalButton}
+                                                onPress={handleRemoveBook}
+                                            >
+                                            <Text style={styles.modalButtonTextVoltar}>Remover Livro</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={styles.modalButton}
+                                                onPress={toggleModal}
+                                            >
+                                            <Text style={styles.modalButtonTextVoltar}>Voltar</Text>
+                                            </TouchableOpacity>
+                                            <TouchableOpacity
+                                                style={styles.modalButton}
+                                                onPress={handleSavePagesRead}
+                                            >
+                                             <Text style={styles.modalButtonText}>Salvar</Text>
+                                                </TouchableOpacity>
+                                        </View>
                                     </View>
                                 </View>
                             </Modal>
@@ -249,8 +276,18 @@ const styles = StyleSheet.create({
         fontFamily: 'Manjari-regular',
         fontSize: 18,
         color: 'white',
-        margin: 12,
+        marginTop: 12,
         textAlign: 'center',
+    },
+    pagesText_: {
+        fontFamily: 'Manjari-regular',
+        fontSize: 18,
+        color: 'white',
+        marginTop: 12,
+        textAlign: 'center',
+        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+        textShadowOffset: { width: 2, height: 2 },
+        textShadowRadius: 1,
     },
     image: {
         marginLeft: 6,
@@ -315,9 +352,55 @@ const styles = StyleSheet.create({
         marginBottom: 6,
         marginLeft: '5%',
         fontFamily: 'Manjari-regular',
+        textShadowColor: 'rgba(0, 0, 0, 0.5)',
+        textShadowOffset: { width: 1, height: 1 },
+        textShadowRadius: 1,
     },
     background: {
         backgroundColor: '#070558',
         flex: 1,
     },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      },
+      modalContent: {
+        width: '80%',
+        padding: 20,
+        backgroundColor: 'white',
+        borderRadius: 10,
+        alignItems: 'center',
+      },
+      modalTitle: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+      },
+      modalInput: {
+        width: '100%',
+        height: 40,
+        borderWidth: 1,
+        borderColor: 'gray',
+        borderRadius: 5,
+        paddingHorizontal: 10,
+        marginBottom: 10,
+      },
+      modalButton: {
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: '#2938C4',
+        margin: 10
+      },
+      modalButtonText: {
+        fontSize: 16,
+        color: 'white',
+        textAlign: 'center',
+      },
+      modalButtonTextVoltar: {
+        fontSize: 16,
+        color: 'red',
+        textAlign: 'center',
+      },
 })

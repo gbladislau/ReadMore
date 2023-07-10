@@ -4,12 +4,12 @@ import { View } from 'react-native';
 
 export default function Logout() {
     try{
-        const ok = AsyncStorage.removeItem('acess_token');
+        AsyncStorage.removeItem('acess_token');
     }
     catch(erro){
         console.log(erro)
     }
     navigator = useNavigation();
     navigator.navigate('Home');
-    return(<View></View>);
+    return(<View>{}</View>);
 }
