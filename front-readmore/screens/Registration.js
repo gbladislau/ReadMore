@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Text, SafeAreaView, View, StyleSheet, TouchableOpacity } from "react-native";
+import { Text, SafeAreaView, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import InputBox from "../components/InputBox";
 import {API_URL} from "@env"
@@ -45,7 +45,7 @@ export default function Registration() {
             }
             else {
                 console.log(`Falha na requisição ${requestOptions["method"]} para ${ url_post } HTTP ${response.status}`)
-                Alert.alert("Erro interno tente novamente")
+                Alert.alert("Este email já possui uma conta atrelada")
             }
 
         }
@@ -62,19 +62,19 @@ export default function Registration() {
             <View style={styles.cadastroRetangulo}>
                 <Text style={styles.cadatroText}>Novo Cadastro</Text>
             </View>
+            <View style={styles.retanguloContainer}>
+                <InputBox inputName="Username" inputSet={setUsername} secureTextEntry={false} />
 
-            <InputBox inputName="Username" inputSet={setUsername} secureTextEntry={false} />
+                <InputBox inputName="Email" inputSet={setEmail} secureTextEntry={false} />
 
-            <InputBox inputName="Email" inputSet={setEmail} secureTextEntry={false} />
+                <InputBox inputName="Password" inputSet={setPassword} secureTextEntry={true} />
 
-            <InputBox inputName="Password" inputSet={setPassword} secureTextEntry={true} />
+                <InputBox inputName="Confirm Password" inputSet={setConfirmPassword} secureTextEntry={true} />
 
-            <InputBox inputName="Confirm Password" inputSet={setConfirmPassword} secureTextEntry={true} />
-
-            <TouchableOpacity style={styles.loginBtn} onPress={postCadastro}>
-                <Text style={styles.loginText}>Fazer Cadastro</Text>
-            </TouchableOpacity>
-
+                <TouchableOpacity style={styles.loginBtn} onPress={postCadastro}>
+                    <Text style={styles.loginText}>Fazer Cadastro</Text>
+                </TouchableOpacity>
+            </View>
         </SafeAreaView>
     );
 }
@@ -135,8 +135,6 @@ const styles = StyleSheet.create({
         backgroundColor: "#2938C4",
     },
 
-
-
     loginText: {
         position: 'absolute',
 
@@ -145,5 +143,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
 
-    }
+    },
+    retanguloContainer: {
+        width: '92%',
+        height: 'auto',
+        borderWidth: 3,
+        borderColor: '#2938C4',
+        borderRadius: 25,
+        backgroundColor: "#D9D9D9",
+        alignSelf: 'center',
+        alignContent:'space-around',
+        alignItems:'center',
+        padding:30
+    },
+
 })

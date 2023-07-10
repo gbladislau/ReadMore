@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     inputView: {
         backgroundColor: "#4ADEDE",
         borderRadius: 30,
-        width: "70%",
+        width: "100%",
         height: 45,
         marginBottom: 20,
       },

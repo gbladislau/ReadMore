@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function BookCard({ bookData, hasBook }) {
+export default function BookCard({ bookData, hasBook }){
     //console.log(bookData);
     const navigation = useNavigation()
     const [paginasLidas, setPaginasLidas] = useState();
@@ -19,9 +19,11 @@ export default function BookCard({ bookData, hasBook }) {
     else if ('covers' in bookData) {
         coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers'][0]}-M.jpg` }} style={styles.image} />;
        
-        dataForBookPage.push({
-            'cover_variable': ['covers'][0]
-        });
+        setDataForBookPage(prevData => ({
+            ...prevData,
+            cover_variable: bookData['covers'][0]
+          }));          
+          
     }
 
     useEffect(()=>{

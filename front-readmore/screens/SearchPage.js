@@ -41,13 +41,13 @@ function SearchPage() {
 
                 </View>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
-                    <Text style={styles.titleBio}>Livro/Autor</Text>
+                    {/* <Text style={styles.titleBio}>Livro/Autor</Text>
                     <Checkbox
                         style={styles.checkbox}
                         value={isChecked}
                         onValueChange={setChecked}
                         color={isChecked ? '#4630EB' : undefined}
-                    />
+                    /> */}
                 </View>
                 <TouchableOpacity style={styles.imagem}
                     onPress={() => {

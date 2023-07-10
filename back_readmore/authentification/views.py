@@ -164,11 +164,11 @@ def reset_password(request):
     new_password = request.data.get('new_password')
 
     try:
-        user = User.objects.get(email=email, username=username)
+        user = UserData.objects.get(email=email, name=username)
         user.password = make_password(new_password)
         user.save()
         return Response(data='Senha redefinida com sucesso')
-    except User.DoesNotExist:
+    except UserData.DoesNotExist:
         return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
