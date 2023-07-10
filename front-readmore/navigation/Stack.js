@@ -2,7 +2,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from '../screens/HomeScreen';
 import LoginPage from '../screens/LoginPage';
 import Registration from '../screens/Registration';
-import UserHomeScreen from '../screens/UserHomeScreen';
 import { MainDrawer } from './Drawer';
 import SearchResults from '../screens/SearchResults';
 import BookPage from '../screens/BookPage';

@@ -2,7 +2,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-export default function AuthorCard({ authorData }) {
+export default function AuthorCard({ authorData ,hasAllData}) {
     const navigation = useNavigation()
     //console.log(JSON.stringify(authorData));
 
@@ -16,7 +16,10 @@ export default function AuthorCard({ authorData }) {
     );
 
     return (
-        <TouchableOpacity style={styles.card} onPress={() => navigation.navigate("AuthorPage", { authorData: authorData })}>
+        <TouchableOpacity style={styles.card} onPress={() => {
+                navigation.navigate("AuthorPage", { authorData: authorData })
+
+            }}>
             <View style={styles.retanguloContainer2}>
                 {coverJSX}
                 {authorName && (

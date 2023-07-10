@@ -22,7 +22,7 @@ class BookSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Book
-        fields = ["title", "opl_key", 'status','author_name','cover_i']
+        fields = ["title", "opl_key", 'status','author_name','cover_i','pages_read']
 
     def create(self, validated_data,user):
         book = Book.objects.create(

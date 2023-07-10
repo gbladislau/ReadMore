@@ -31,16 +31,16 @@ export default function LoginPage() {
     const postLogin = async () => {
         const url_post = `${API_URL}/api/login/`
         try {
-            navigation.navigate("UserHome");
+            //navigation.navigate("UserHome");
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {
                 console.log(`Sucesso na requisição ${requestOptions["method"]} para ${url_post} HTTP ${response.status}`);
                 var responseJSON
                 try {
                     responseJSON = await response.json();
-                    console.log(JSON.stringify(responseJSON));
-                    AsyncStorage.setItem("access_token", JSON.stringify(responseJSON.access))
-                    console.log(JSON.stringify(responseJSON.access))
+                    // console.log(JSON.stringify(responseJSON));
+                    await AsyncStorage.setItem("access_token", JSON.stringify(responseJSON.access))
+                    //console.log(JSON.stringify(responseJSON.access))
                     navigation.navigate("UserHome");
 
                 }
