@@ -1,4 +1,5 @@
-import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity, ScrollView, Alert, Switch } from 'react-native';
+import { View, StyleSheet, Text, Dimensions, Image, TouchableOpacity, ScrollView, Alert } from 'react-native';
+import Checkbox from 'expo-checkbox';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import TopBar from '../components/TopBar';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -11,16 +12,13 @@ import { TextInput } from 'react-native-gesture-handler';
  * @returns PAGINA DE PESQUISA
  */
 
-const searchSwitch = () => {
-    const [checked, setChecked] = useState(false);
-    const toggleSwitch = () => {
-        setChecked(!checked);
-    };
-}
 
 function SearchPage() {
     const navigator = useNavigation();
     const [searchKey, setsearchKey] = useState('');
+    const [isChecked, setChecked] = useState(false);
+
+
     return (
         <SafeAreaView style={styles.background}>
             <TopBar title={"Explorar"} />
@@ -44,13 +42,13 @@ function SearchPage() {
                 </View>
                 <View style={{ flex: 1, flexDirection: 'column' }}>
                     <Text style={styles.titleBio}>Livro/Autor</Text>
-                    <Switch
-                        trackColor={{ false: '#767577', true: '#81b0ff' }}
-                        thumbColor={searchSwitch.checked ? '#f5dd4b' : '#f4f3f4'}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={searchSwitch.toggleSwitch}
-                        value={searchSwitch.checked}
-                    /></View>
+                    <Checkbox
+                        style={styles.checkbox}
+                        value={isChecked}
+                        onValueChange={setChecked}
+                        color={isChecked ? '#4630EB' : undefined}
+                    />
+                </View>
                 <TouchableOpacity style={styles.imagem}
                     onPress={() => {
                         if (searchKey == '') { Alert.alert('Caixa de pesquisa vazia!', "Insira algo para pesquisar") }

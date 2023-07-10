@@ -1,4 +1,4 @@
-import { StyleSheet, Dimensions, Alert, View, Text, Image, TouchableOpacity, ActivityIndicator, Switch } from 'react-native';
+import { StyleSheet, Dimensions, Alert, View, Text, Image, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import ResultsList from '../components/ResultsList';
