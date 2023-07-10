@@ -15,4 +15,5 @@ urlpatterns = [
     path('api/update_book/',views.update_pages_read, name='update_book'),
     path('api/hasbook/',views.hasbook, name='hasbook'),
     path('api/delete_book/',views.delete_book, name='delete_book'),
+    path('api/get_user_books/',views.get_user_books, name='get_books')
 ]

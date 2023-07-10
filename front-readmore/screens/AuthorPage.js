@@ -10,10 +10,11 @@ export default function AuthorPage({ route, navigator }) {
   var authorData = route.params.authorData;
 
 
-  const authorBio = authorData?.bio?.value;
+  var authorBio = authorData['bio']
+  if (authorBio?.value) authorBio = authorBio.value;
+
   const authorName = authorData?.name;
   const imageopt = authorData?.photos?.[0];
-
 
 
   const [searchResults, setSearchResults] = useState();

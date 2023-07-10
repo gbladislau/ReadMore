@@ -8,7 +8,7 @@ export default function ResultsList({ searchResults, isBook }) {
     const component = searchResults['docs'].map((item, i) => {
 
         if (isBook)
-            return <BookCard key={i} bookData={item} />
+            return <BookCard key={i} bookData={item} hasBook={false} />
         else
             return <AuthorCard key={i} authorData={item} />
     })

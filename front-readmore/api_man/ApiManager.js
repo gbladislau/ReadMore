@@ -5,14 +5,13 @@ import { Alert } from "react-native";
  * Faz a requisição para a API REST django de dados do usuário usando o token
  * @param {string} uri 
  */
-export const apiRequestWithToken = async (uri, data) => {
+export const apiRequestWithToken = async (uri,set) => {
 
-    var TOKEN = AsyncStorage.getItem('acess_token');
+    var TOKEN = await AsyncStorage.getItem('access_token');
 
     const requestOptions = {
         method: 'GET',
-        headers: { 'Authorization': 'Bearer ' + TOKEN },
-        body: (data)
+        headers: { 'Authorization': 'Bearer ' + TOKEN.replace(/"/g, '') },
     };
 
     try {
@@ -24,6 +23,8 @@ export const apiRequestWithToken = async (uri, data) => {
             catch (erro) {
                 console.log(erro);
             }
+            set( responseJSON);
+            //console.log(responseJSON);
         }
         else {
             console.log(`Falha na requisição ${requestOptions["method"]} para ${uri} HTTP ${response.status}`)

@@ -13,7 +13,7 @@ function SearchResults({ route, navigation }) {
     const [bookList, setBookList] = useState(<View />);
 
     const fetchSearch = async () => {
-        console.log('\n\n\n\nCHAMOU \n\n');
+        //console.log('\n\n\n\nCHAMOU \n\n');
         const url_ = `https://openlibrary.org/search.json?&fields=author_name,title,key,cover_i&mode=everything&q=${route.params.searchKey}`;
         try {
             setLoading(true)

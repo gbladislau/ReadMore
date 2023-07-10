@@ -95,8 +95,10 @@ def hasbook(request: HttpRequest):
         opl_key = json_data['opl_key']
         
         has_book = user.books_list.filter(opl_key=opl_key).exists()
-        book = user.books_list.filter(opl_key=opl_key).first()
-        pages_read = book.pages_read
+        pages_read = 0
+        if has_book:
+            book = user.books_list.filter(opl_key=opl_key).first()
+            pages_read = book.pages_read
         return Response(data={'hasBook': has_book,'pages_read':pages_read})
 
     else:
@@ -119,7 +121,7 @@ def update_pages_read(request):
     pages_read = json_data['pages_read']
 
     try:
-        book = Book.objects.get(id=book_id)
+        book = Book.objects.get(opl_key=book_id)
         book.pages_read = pages_read
         book.save()
         serializer = BookSerializer(book)
@@ -168,3 +170,16 @@ def reset_password(request):
         return Response(data='Senha redefinida com sucesso')
     except User.DoesNotExist:
         return Response({'error': 'Usuário não encontrado'}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
+def get_user_books(request):
+    
+    try:
+        access_token = AccessToken(request.META.get('HTTP_AUTHORIZATION', '').split('Bearer ')[1])
+        user_id = access_token['user_id']
+        user = UserData.objects.get(id=user_id)
+        user = request.user
+        books = Book.objects.filter(user=user)
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
+    except: return Response(status=status.HTTP_400_BAD_REQUEST)

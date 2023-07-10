@@ -24,7 +24,7 @@ export default function BookPage({ route }) {
     const [searchResults, setSearchResults] = useState();
 
     const [authorBox, setauthorBox] = useState(<View />);
-    const [pagesnum, setpagesnum] = useState(<Text style={styles.pagesText}>Número de Páginas Indisponível</Text>);
+    const [pagesnum, setpagesnum] = useState(<Text style={styles.pagesText}>Número de páginas total indisponível</Text>);
     const [subList, setSubList] = useState(<View />);
     const [descriptionBox, setdescriptionBox] = useState(<View />);
 
@@ -101,7 +101,7 @@ export default function BookPage({ route }) {
                 //console.log(pgnum);
 
                 if (pgnum != -1)
-                    setpagesnum(<Text style={styles.pagesText}>Número de Páginas: {pgnum}</Text>);
+                    setpagesnum(<Text style={styles.pagesText}>Aproximadamente {pgnum} páginas no Total</Text>);
             }
 
             if (searchResults['subjects'] != null)
@@ -135,10 +135,9 @@ export default function BookPage({ route }) {
      * na estante
      */
     useEffect(() => {
-
         if (hasBook.hasBook == true) {
             setLerOuVoltarALer("Adicionar Marcação");
-            console.log("entrou");
+            setPagesRead(hasBook.pages_read)
         }
     }, [hasBook]);
 
@@ -146,7 +145,6 @@ export default function BookPage({ route }) {
         try {
             var rData = { 'opl_key': bookKey };
             apiPost(`${API_URL}/api/hasbook/`, JSON.stringify(rData), setHasBook);
-
         }
         catch (erro) {
             console.log(erro);
@@ -163,7 +161,10 @@ export default function BookPage({ route }) {
     };
 
     const handleSavePagesRead = ()=>{
-        apiPost(`${API_URL}/api/update_book/`,{'opl_key':bookKey,'pages_read':pagesRead})
+        apiPost(`${API_URL}/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':pagesRead}),()=>{
+            Alert.alert("Marcado com Sucesso!")
+            toggleModal()}
+            )
     };
 
     return (
@@ -173,31 +174,24 @@ export default function BookPage({ route }) {
                     <ScrollView style={{marginTop: 10,marginBottom:10}}>
                         <View style={{ flex: 1, width: 'auto', height: 'auto', flexShrink: 0, flexDirection: 'row' }}>
                             <TouchableOpacity onPress={navigation.openDrawer}>
-                                {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
                                 <Image style={styles.imagemMenu} source={require('../assets/menu2.png')} />
                             </TouchableOpacity>
                             <Text style={styles.titleText}>{titleName}</Text>
                         </View>
-                        <View style={{
-                            flex: 1,
-                            width: 'auto',
-                            height: 'auto',
-                            flexShrink: 0,
-                            alignContent: 'center',
-                            alignItems: 'center'
-                        }}>
+                        <View style={styles.cover}>
                             {coverJSX}
 
                         </View>
                         {authorBox}
                         <View style={styles.container}>
                             {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
+                            {hasBook?.hasBook && <Text style={styles.pagesText}> Você Parou na Pagina {pagesRead}</Text>}
                             {pagesnum}
                             <TouchableOpacity
                                 style={styles.botaoLerOpacity}
                                 onPress={() => {
-                                    if (!hasBook)
-                                        apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData));
+                                    if (!hasBook?.hasBook)
+                                        apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData),()=>'');
                                     else {
                                         toggleModal();
                                     }
@@ -239,12 +233,8 @@ export default function BookPage({ route }) {
                                 </View>
                             </Modal>
                         </View>
-
-                        {loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
-
-                        {descriptionBox}
-
-                        {subList}
+                        {descriptionBox || loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
+                        {subList || loading && (<ActivityIndicator size="large" style={styles.loading}></ActivityIndicator>)}
                     </ScrollView>
                 </View>
             </View>
@@ -254,8 +244,16 @@ export default function BookPage({ route }) {
 }
 
 const styles = StyleSheet.create({
+    cover:{
+        flex: 1,
+        width: 'auto',
+        height: 'auto',
+        flexShrink: 0,
+        alignContent: 'center',
+        alignItems: 'center'
+    },
     pagesText: {
-        fontFamily: 'Manjari-Bold',
+        fontFamily: 'Manjari-regular',
         fontSize: 18,
         color: 'white',
         margin: 12,
@@ -265,7 +263,7 @@ const styles = StyleSheet.create({
         marginLeft: 6,
         borderRadius: 9,
         borderWidth: 3,
-        borderColor: 'black',
+        borderColor: '#29476',
         width: '50%',
         height: 300,
     },
