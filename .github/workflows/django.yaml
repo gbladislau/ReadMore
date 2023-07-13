@@ -1,5 +1,6 @@
 name: Django CI
-
+env:
+  SECRET_KEY: 'sadsg5hahahahahah'
 on:
   push:
     branches: [ "main", "development"]
@@ -14,6 +15,7 @@ jobs:
       max-parallel: 4
       matrix:
         python-version: ['3.10', '3.11']
+
 
     steps:
     - uses: actions/checkout@v3
