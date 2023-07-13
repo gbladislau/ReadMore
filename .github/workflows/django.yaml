@@ -23,7 +23,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - name: Install Dependencies
       run: |
-        cd ./back-readmore/
+        cd ./back_readmore/
         python -m pip install --upgrade pip
         pip install pipenv
         pipenv install
