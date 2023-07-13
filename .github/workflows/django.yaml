@@ -29,4 +29,5 @@ jobs:
         pipenv install
     - name: Run Server
       run: |
+        cd ./back_readmore/
         pipenv run python manage.py runserver
