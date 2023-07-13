@@ -4,7 +4,6 @@ import { useFocusEffect } from '@react-navigation/native';
 import TopBar from '../components/TopBar';
 import { apiRequestWithToken } from '../api_man/ApiManager';
 import { useState, useEffect, useCallback } from 'react';
-import { API_URL } from '@env';
 import ApiList from '../components/ApiList';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -16,7 +15,7 @@ function Bookshelf() {
 
     const fetchData = async () => {
         try {
-            await apiRequestWithToken(`${API_URL}/api/get_user_books/`, setApiResults);
+            await apiRequestWithToken(`/api/get_user_books/`, setApiResults);
         } catch (error) {
             console.log(error);
         } finally {

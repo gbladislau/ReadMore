@@ -27,7 +27,8 @@ jobs:
         python -m pip install --upgrade pip
         pip install pipenv
         pipenv install
-    - name: Run Server
+    - name: Test Server
       run: |
         cd ./back_readmore/
-        pipenv run python manage.py runserver
+        pipenv run python manage.py test
+        pipenv run python manage.py testserver

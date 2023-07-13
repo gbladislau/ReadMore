@@ -1,7 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Text, TouchableOpacity, ActivityIndicator, Alert, Modal } from 'react-native';
-import { API_URL } from '@env';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { apiRequestWithToken } from '../api_man/ApiManager';
@@ -153,7 +152,7 @@ export default function BookPage({ route }) {
 
     useEffect(() => {
         try { 
-            apiPost(`${API_URL}/api/hasbook/`, JSON.stringify(rData), setHasBook);
+            apiPost(`/api/hasbook/`, JSON.stringify(rData), setHasBook);
         }
         catch (erro) {
             console.log(erro);
@@ -170,12 +169,12 @@ export default function BookPage({ route }) {
     };
 
     const handleSavePagesRead = ()=>{
-        apiPost(`${API_URL}/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':parseInt(pagesRead)}),()=>{
+        apiPost(`/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':parseInt(pagesRead)}),()=>{
             Alert.alert("Marcado com Sucesso!")
             toggleModal()})
     };
     const handleRemoveBook = ()=>{
-        apiPost(`${API_URL}/api/delete_book/`,JSON.stringify({'opl_key':bookKey}),()=>{
+        apiPost(`/api/delete_book/`,JSON.stringify({'opl_key':bookKey}),()=>{
             Alert.alert("Removido com Sucesso!")
             toggleModal()})
         setHasBook({'hasBook':false, 'pages_read':0})
@@ -204,7 +203,7 @@ export default function BookPage({ route }) {
                                 style={styles.botaoLerOpacity}
                                 onPress={() => {
                                     if (!hasBook?.hasBook)
-                                        apiPost(`${API_URL}/api/addbook/`, JSON.stringify(saveBookData),()=>{
+                                        apiPost(`/api/addbook/`, JSON.stringify(saveBookData),()=>{
                                             Alert.alert("Adicionado com sucesso");
                                             setHasBook({'hasBook':true, 'pages_read':0})
                                         });

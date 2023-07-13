@@ -1,12 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
+import {API_URL} from "@env";
 
 /**
  * Faz a requisição para a API REST django de dados do usuário usando o token
  * @param {string} uri 
  */
 export const apiRequestWithToken = async (uri,set) => {
-
+    var destino = API_URL + uri;
     var TOKEN = await AsyncStorage.getItem('access_token');
 
     const requestOptions = {
@@ -15,7 +16,7 @@ export const apiRequestWithToken = async (uri,set) => {
     };
 
     try {
-        var response = await fetch(uri, requestOptions);
+        var response = await fetch(destino, requestOptions);
         if (response.ok) {
             console.log(`Sucesso na requisição ${requestOptions["method"]} para ${uri} HTTP ${response.status}`);
             var responseJSON
@@ -40,6 +41,7 @@ export const apiRequestWithToken = async (uri,set) => {
 }
 
 export const apiPost = async (uri,data,set) => {
+    var destino = API_URL + uri;
 
     var TOKEN = await AsyncStorage.getItem('access_token');
     const requestOptions = {
@@ -52,7 +54,7 @@ export const apiPost = async (uri,data,set) => {
     };
     
     try {
-        var response = await fetch(uri, requestOptions);
+        var response = await fetch(destino, requestOptions);
         if (response.ok) {
             console.log(`Sucesso na requisição ${requestOptions["method"]} para ${uri} HTTP ${response.status}`);
             var responseJSON

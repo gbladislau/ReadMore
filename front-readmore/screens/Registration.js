@@ -2,7 +2,6 @@ import { useState } from "react";
 import { Text, SafeAreaView, View, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import InputBox from "../components/InputBox";
-import {API_URL} from "@env"
 
 /**
  * SCREEN DE CADASTRO DE USUÁRIO
@@ -30,7 +29,7 @@ export default function Registration() {
     };
 
     const postCadastro = async () => {
-        const url_post = `${API_URL}/api/register/`
+        const url_post = `/api/register/`
         try {
             var response = await fetch(url_post, requestOptions);
             if (response.ok) {
