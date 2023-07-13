@@ -34,4 +34,3 @@ jobs:
         cd ./back_readmore/
         pipenv install
         pipenv run python manage.py test
-        pipenv run python manage.py testserver
