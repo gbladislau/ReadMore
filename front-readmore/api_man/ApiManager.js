@@ -1,13 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from "react-native";
-import {API_URL} from "@env";
+import { API_URL } from "@env";
 
 /**
  * Faz a requisição para a API REST django de dados do usuário usando o token
  * @param {string} uri 
  */
 export const apiRequestWithToken = async (uri,set) => {
-    var destino = API_URL + uri;
+    var destino = concat(API_URL,uri)
     var TOKEN = await AsyncStorage.getItem('access_token');
 
     const requestOptions = {
@@ -41,7 +41,8 @@ export const apiRequestWithToken = async (uri,set) => {
 }
 
 export const apiPost = async (uri,data,set) => {
-    var destino = API_URL + uri;
+    var destino = concat(API_URL,uri);
+    console.log(destino);
 
     var TOKEN = await AsyncStorage.getItem('access_token');
     const requestOptions = {
@@ -72,7 +73,10 @@ export const apiPost = async (uri,data,set) => {
 
     }
     catch (erro) {
-        console.log(`Erro no ${requestOptions["method"]} em ${uri}`)
+        console.log(`Erro no ${requestOptions["method"]} em ${destino}`)
+        console.log(destino);
+
+        console.log(API_URL);
         Alert.alert("Erro de Rede, verifique sua conexão com a internet")
         console.log(erro);
     }

@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "front-readmore",
+    "name": "Read More",
     "slug": "front-readmore",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,7 +8,7 @@
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
-      "resizeMode": "contain",
+      "resizeMode": "cover",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": [

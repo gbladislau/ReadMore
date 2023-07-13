@@ -3,6 +3,7 @@ import { useNavigation } from '@react-navigation/native';
 import { SafeAreaView, StyleSheet, View, Text, TouchableOpacity, Alert, Modal } from "react-native";
 import InputBox from "../components/InputBox";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import {API_URL} from "@env"
 
 /**
  *  Pagina onde faz o login do usuário, aqui usamos componentes 
@@ -32,7 +33,7 @@ export default function LoginPage() {
     };
 
     const postLogin = async () => {
-        const url_post = `/api/login/`
+        const url_post = API_URL+`/api/login/`
         try {
             //navigation.navigate("UserHome");
             var response = await fetch(url_post, requestOptions);
@@ -64,7 +65,7 @@ export default function LoginPage() {
     }
 
     const handleResetPassword = async () => {
-        const url = `/api/reset_password/`;
+        const url = API_URL + `/api/reset_password/`;
 
         const requestOptions = {
             method: 'POST',
