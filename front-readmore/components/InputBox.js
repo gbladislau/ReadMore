@@ -1,5 +1,9 @@
 import { Text,TextInput, View, StyleSheet} from "react-native";
 
+/**
+ * CAIXA QUE RECEBE O INPUT PARA A PESQUISA DE UM LIVRO
+ * @returns CAIXA DE INPUT
+ */
 export default function InputBox ({inputName, inputSet, secureTextEntry}){
   return(
         <View style={styles.inputView}>
@@ -14,7 +18,9 @@ export default function InputBox ({inputName, inputSet, secureTextEntry}){
       </View>
   );
 }
-
+/**
+* Consulta os dados do autor para confirma a presença de uma foto
+*/
 const styles = StyleSheet.create({
     inputView: {
         backgroundColor: "#4ADEDE",

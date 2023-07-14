@@ -10,7 +10,7 @@ import {API_URL} from "@env"
  *  criados para manter o reuso e pedimos ao BACKEND credenciais
  *  caso retorne tudo ok ele segue com o login, caso contrario mandamos
  *  repetir a senha.
- * @returns Pagina de Login (COMPONENTE)
+ * @returns PAGINA DE LOGIN
  */
 export default function LoginPage() {
 
@@ -22,7 +22,9 @@ export default function LoginPage() {
     const [password, setPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
 
-
+    /**
+     * Faz o request do dados do usuário para o login
+     */
     const requestOptions = {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,6 +34,9 @@ export default function LoginPage() {
         })
     };
 
+    /**
+     * Faz o post da autenticação do usuário e o login no aplicativo
+     */
     const postLogin = async () => {
         const url_post = API_URL+`/api/login/`
         try {
@@ -64,6 +69,9 @@ export default function LoginPage() {
         }
     }
 
+    /**
+     * Faz a alteração da senha do usuário
+     */
     const handleResetPassword = async () => {
         const url = API_URL + `/api/reset_password/`;
 
@@ -136,7 +144,9 @@ export default function LoginPage() {
     );
 }
 
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
 
     cadatroText: {

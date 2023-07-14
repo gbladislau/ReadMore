@@ -1,5 +1,7 @@
 import { StyleSheet } from "react-native";
-
+/**
+ * Estilos de elementos padrões do aplicativo.
+ */
 export const styles = StyleSheet.create({
     caixa: {
         marginTop: 12,

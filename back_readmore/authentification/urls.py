@@ -4,7 +4,7 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-
+# URL's usadas pelo banco de dados do aplicativo
 urlpatterns = [
     path('api/register/', views.signup, name="sign_up"),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),

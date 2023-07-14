@@ -2,13 +2,25 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+/**
+ * RECEBE OS DADOS DO AUTOR EM FORMATO JSON, TRATA OS DADOS E TRANSFORMA EM UM AUTHORCARD COM OS DADOS DO AUTOR
+ * @returns AUTHORCARD
+ */
 export default function AuthorCard({ authorData ,hasAllData}) {
     const navigation = useNavigation()
-    //console.log(JSON.stringify(authorData));
 
+    /**
+     * Consulta os dados do autor para confirma a foto
+     */
     const imageopt = authorData?.photos?.[0];
-    //console.log(imageopt);
+    /**
+     * Consulta os dados do autor para confirma o nome
+     */
     const authorName = authorData?.personal_name;
+
+    /**
+     * Faz uma busca na API e retorna a foto do autor, quando existir uma
+     */
     const coverJSX = imageopt ? (
         <Image source={{ uri: `https://covers.openlibrary.org/a/id/${imageopt}-M.jpg` }} style={styles.image} />
     ) : (
@@ -31,7 +43,9 @@ export default function AuthorCard({ authorData ,hasAllData}) {
         </TouchableOpacity>
     );
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
     card:
     {

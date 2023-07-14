@@ -6,7 +6,9 @@ import { UserStack } from './UserStack';
 
 
 const Drawer = createDrawerNavigator();
-
+/**
+ * Retorna a barra lateral com os componentes de navegação
+ */
 export const MainDrawer = () => {
   return (
     <Drawer.Navigator

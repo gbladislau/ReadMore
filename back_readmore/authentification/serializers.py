@@ -2,7 +2,7 @@
 from rest_framework import serializers
 from .models import UserData, Book
 
-
+#Iniciador de usuário
 class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -17,7 +17,7 @@ class UserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
-
+#Iniciador de livro
 class BookSerializer(serializers.ModelSerializer):
 
     class Meta:

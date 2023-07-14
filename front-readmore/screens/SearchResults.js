@@ -4,7 +4,11 @@ import { useNavigation } from '@react-navigation/native';
 import ResultsList from '../components/ResultsList';
 import { useState, useEffect } from 'react';
 import { ScrollView } from 'react-native-gesture-handler';
-
+/**
+ * 
+ *  SCREEN COM RESULTADO DA PESQUISA DE LIVROS
+ * @returns PÁGINA RESULTADO DE PESQUISA
+ */
 function SearchResults({ route, navigation }) {
 
 
@@ -13,7 +17,9 @@ function SearchResults({ route, navigation }) {
     const [searchList, setSearchList] = useState(<View />);
 
 
-
+    /**
+     * Faz a busca do livro na API e retorna os dados em formato JSON
+     */
     const fetchSearch = async () => {
         //console.log('\n\n\n\nCHAMOU \n\n');
         const url_ = `https://openlibrary.org/search.json?&fields=author_name,title,key,cover_i&mode=everything&q=${route.params.searchKey}`;
@@ -51,6 +57,9 @@ function SearchResults({ route, navigation }) {
     }
         , []);
 
+    /**
+     * Salva o resultado da pesquisa, depois de tratado o formato JSON, em uma lista de livros
+     */
     useEffect(() => {
         if (searchResults) {
             console.log("\nUpdated searchResults:\n", searchResults);
@@ -78,7 +87,9 @@ function SearchResults({ route, navigation }) {
         </SafeAreaView>
     );
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const Wwidth = Dimensions.get('window').width;
 const marginLeftvar = ((Wwidth - ((Wwidth) * 0.92)) / 2);
 

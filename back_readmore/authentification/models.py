@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
-
+#Classe de Usuário
 class Book(models.Model):
     opl_key = models.CharField(max_length=200, unique=True)
     title = models.CharField(max_length=200)
@@ -14,7 +14,7 @@ class Book(models.Model):
     def __str__(self):
         return self.title
 
-
+#Iniciador de administrador
 class UserManager(BaseUserManager):
     use_in_migrations = True
 
@@ -39,7 +39,7 @@ class UserManager(BaseUserManager):
 
         return self.create_user(email, password, **extra_fields)
 
-
+#Classe abtrata de usuário 
 class UserData(AbstractBaseUser):
     name = models.CharField(max_length=100, unique=True)
     email = models.EmailField(max_length=100, unique=True)

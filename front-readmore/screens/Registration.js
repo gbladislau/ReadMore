@@ -28,6 +28,9 @@ export default function Registration() {
         })
     };
 
+    /**
+     * Faz o post dos dados do usuário no banco de dados
+     */
     const postCadastro = async () => {
         const url_post = `/api/register/`
         try {
@@ -77,7 +80,9 @@ export default function Registration() {
         </SafeAreaView>
     );
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
 
     cadatroText: {

@@ -3,7 +3,10 @@ import { StatusBar } from 'expo-status-bar';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
+/**
+ * SCREEN HOME, PÁGINA INICIAL DO APLICATIVO
+ * @returns PÁGINA HOME
+ */
 export default function HomeScreen() {
     const navigation = useNavigation()
     return (
@@ -33,7 +36,9 @@ export default function HomeScreen() {
         </SafeAreaView>
     );
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
     background: {
         position: 'absolute',

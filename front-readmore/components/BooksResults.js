@@ -1,7 +1,10 @@
 import React from 'react';
 import { View } from 'react-native';
 import BookCard from './BookCard';
-
+/**
+ * BOOKCARDS DOS LIVROS PESQUISADOS
+ * @returns LISTA DE BOOKCARD
+ */
 export default function BooksResults({ searchResults }) {
   const component = searchResults?.entries?.map((item, i) => {
     if ('covers' in item && item.covers !== -1) {

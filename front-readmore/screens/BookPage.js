@@ -9,10 +9,8 @@ import DescriptionBox from '../components/DescriptionBox';
 import AuthorBox from '../components/AuthorBox';
 import { apiPost } from '../api_man/ApiManager';
 /**
- * Pagina de livro, recebe parametros pelo route e exibe pagina especifica 
- * para cada livro disponivel na api
- * @param {Array} param0 
- * @returns 
+ * SCREEN COM AS INFORMAÇÕES DO LIVRO PESQUISADO
+ * @returns PÁGINA DE LIVRO
  */
 export default function BookPage({ route }) {
 
@@ -149,7 +147,9 @@ export default function BookPage({ route }) {
     }, [hasBook]);
 
     var rData = { 'opl_key': bookKey };
-
+    /**
+     * Adiciona um livro na estante do usuário
+     */
     useEffect(() => {
         try { 
             apiPost(`/api/hasbook/`, JSON.stringify(rData), setHasBook);
@@ -159,6 +159,9 @@ export default function BookPage({ route }) {
         }
     }, []);
 
+    /**
+     * Salva as principais informações do livro
+     */
     const saveBookData = {
 
         'title': titleName,
@@ -167,12 +170,17 @@ export default function BookPage({ route }) {
         'status': 'reading',
         'cover_i': (bookData?.cover_i),
     };
-
+    /**
+     * Marcador de página
+     */
     const handleSavePagesRead = ()=>{
         apiPost(`/api/update_book/`,JSON.stringify({'opl_key':bookKey,'pages_read':parseInt(pagesRead)}),()=>{
             Alert.alert("Marcado com Sucesso!")
             toggleModal()})
     };
+    /**
+     * Remove um livro pra estante
+     */
     const handleRemoveBook = ()=>{
         apiPost(`/api/delete_book/`,JSON.stringify({'opl_key':bookKey}),()=>{
             Alert.alert("Removido com Sucesso!")
@@ -261,7 +269,9 @@ export default function BookPage({ route }) {
     )
 
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
     cover:{
         flex: 1,

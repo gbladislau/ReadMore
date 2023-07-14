@@ -6,13 +6,18 @@ import { apiRequestWithToken } from '../api_man/ApiManager';
 import { useState, useEffect, useCallback } from 'react';
 import ApiList from '../components/ApiList';
 import { ScrollView } from 'react-native-gesture-handler';
-
+/**
+ * SCREEN DA ESTANTE DE LIVROS DO USUÁRIO
+ * @returns PÁGINA DA ESTANTE
+ */
 function Bookshelf() {
     const [apiResults, setApiResults] = useState([]);
     const [loading, setLoading] = useState(true);
     const [listaDeLivros, setListaDeLivros] = useState(<View />);
 
-
+    /**
+     * Retorna os livros presentes na estante
+     */
     const fetchData = async () => {
         try {
             await apiRequestWithToken(`/api/get_user_books/`, setApiResults);
@@ -23,6 +28,9 @@ function Bookshelf() {
         }
     };
 
+    /**
+     * Salva a lista de livros
+     */
     useEffect(() => {
         setListaDeLivros(<ApiList key={apiResults.length} isBook={true} searchResults={apiResults} />);
     }, [apiResults]);
@@ -43,7 +51,9 @@ function Bookshelf() {
         </SafeAreaView>
     );
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
     background: {
         backgroundColor: '#070558',

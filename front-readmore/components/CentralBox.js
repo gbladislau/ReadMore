@@ -3,7 +3,10 @@ import{ StyleSheet, View ,Dimensions} from 'react-native';
 
 const Wwidth = Dimensions.get('window').width;
 const marginLeftvar = ((Wwidth - ((Wwidth)*0.92))/2);
-
+/**
+ * BOX CENTRAL USADA EM TODAS AS TELAS DO APLICATIVO
+ * @returns BOX CENTRAL
+ */
 export default function CentralBox() {
   const navigation = useNavigation()
   return (

@@ -3,7 +3,10 @@ import { useEffect, useState } from 'react';
 import { View, StyleSheet, Image, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import BooksResults from '../components/BooksResults';
-
+/**
+ * SCREEN COM AS INFORMAÇÃO DO AUTOR DO LIVRO PESQUISADO
+ * @returns PÁGINA DO AUTOR
+ */
 export default function AuthorPage({ route, navigator }) {
 
 
@@ -19,7 +22,9 @@ export default function AuthorPage({ route, navigator }) {
 
     const [searchResults, setSearchResults] = useState();
     const [BooksList, setBooksList] = useState(<View></View>);
-
+    /**
+     * Faz consulta na API e retorna a foto do autor
+     */
     const coverJSX = imageopt ? (
         <Image source={{ uri: `https://covers.openlibrary.org/a/id/${imageopt}-L.jpg` }} style={styles.image}     resizeMethod='auto'
         resizeMode='contain' />
@@ -34,7 +39,9 @@ export default function AuthorPage({ route, navigator }) {
             <Text style={styles.textBio}>{authorBio}</Text>
         );
     }
-
+    /**
+     * Faz consulta na API e retorna uma lista de livros do autor
+     */
     useEffect(() => {
         const fetchauthorbooksData = async () => {
           console.log('Busca livros do autor ');
@@ -65,7 +72,9 @@ export default function AuthorPage({ route, navigator }) {
         fetchauthorbooksData();
       }, []);
       
-
+      /**
+       * trata o retorno da busca de livros do autor e formata padronizado para disponibilizar no aplicativo
+       */
     useEffect(() => {
         if (searchResults) {
             console.log("\nUpdated searchResults:\n", searchResults);
@@ -99,7 +108,9 @@ export default function AuthorPage({ route, navigator }) {
     )
 
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const styles = StyleSheet.create({
     image: {
         marginLeft: 6,

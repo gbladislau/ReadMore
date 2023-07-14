@@ -2,6 +2,10 @@ import { useNavigation } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
 import { styles } from '../styles/GreyBoxStyle';
 
+/**
+ * LISTA COM TODOS OS GÊNEROS DO LIVRO PESQUISADO
+ * @returns LISTA DE GÊNEROS
+ */
 export default function SubjectsBox({ subjectsArray }) {
 
 

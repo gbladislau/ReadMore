@@ -4,10 +4,18 @@ import AuthorCard from './AuthorCard';
 
 import { styles } from '../styles/GreyBoxStyle';
 
+/**
+ * RECEBE UMA LISTA DE AUTORES, FAZ A PESQUISA NA API PELOS DADOS DO AUTOR E 
+ * RETORNA UMA AUTORBOX COM OS DADOS DOS AUTORES
+ * @returns AUTHORBOX
+ */
 export default function AuthorBox({ authorsArray }) {
     //console.log(authorsArray);
     const [authorDataArray, setAuthorDataArray] = useState([]);
 
+    /**
+     * Faz a busca pelo autor na API e retorna os dados em formato JSON
+     */
     const fetchAuthorData = async (key) => {
         const url = `https://openlibrary.org${key}.json`;
 
@@ -29,6 +37,9 @@ export default function AuthorBox({ authorsArray }) {
         }
     };
 
+    /**
+     * Trata os dados em formato JSON e retorna uma lista de autores
+     */
     useEffect(() => {
         const fetchAuthorDataForArray = async () => {
             try {

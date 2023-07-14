@@ -3,6 +3,10 @@ import { StyleSheet, Text, View, Linking } from 'react-native';
 import Hyperlink from 'react-native-hyperlink'
 import { styles } from '../styles/GreyBoxStyle';
 
+/**
+ * RECEBE A STRING DE BIOGRAFIA DO AUTOR
+ * @returns AUTHORBIOBOX
+ */
 export default function BioBox({ bioString }) {
     let component = <Text style={styles.text}>Indisponível</Text>;
 

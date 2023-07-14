@@ -3,6 +3,10 @@ import { useEffect, useState } from 'react';
 import { StyleSheet, View, Dimensions, Image, Text } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
+/**
+ * RECEBE OS DADOS DA PESQUISA PELO LIVRO EM FORMATO JSON, TRATA OS DADOS E TRANSFORMA EM UMA BOOKCARD
+ * @returns BOOKCARD
+ */
 export default function BookCard({ bookData, hasBook }){
     //console.log(bookData);
     const navigation = useNavigation()
@@ -20,6 +24,9 @@ export default function BookCard({ bookData, hasBook }){
         coverJSX = <Image source={{ uri: `https://covers.openlibrary.org/b/id/${bookData['covers'][0]}-M.jpg` }} style={styles.image} />;          
     }
 
+    /**
+     * Trata os dados recebido em formato JSON.
+     */
     useEffect(()=>{
         if(hasBook){
             console.log(bookData['pages_read']);
@@ -50,7 +57,9 @@ export default function BookCard({ bookData, hasBook }){
 
     );
 }
-
+ /**
+ * Consulta os dados do autor para confirma a presença de uma foto
+ */
 const styles = StyleSheet.create({
     textTitle: {
         display: 'flex',

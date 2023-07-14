@@ -62,7 +62,9 @@ function SearchPage() {
         </SafeAreaView>
     );
 }
-
+/**
+ * lista de estilos específicos usado na criação da página
+ */
 const Wwidth = Dimensions.get('window').width;
 const marginLeftvar = ((Wwidth - ((Wwidth) * 0.92)) / 2);
 
