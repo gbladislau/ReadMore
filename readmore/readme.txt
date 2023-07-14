@@ -1,1 +1,0 @@
-{'key': '/works/OL82586W', 'title': 'Harry Potter and the Deathly Hallows', 'cover_i': 10110415}

@@ -1,0 +1,36 @@
+name: Django CI
+env:
+  SECRET_KEY: 'sadsg5hahahahahah'
+on:
+  push:
+    branches: [ "main", "development"]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 4
+      matrix:
+        python-version: ['3.10', '3.11']
+
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v3
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Install Dependencies
+      run: |
+        cd ./back_readmore/
+        python -m pip install --upgrade pip
+        pip install pipenv
+        
+    - name: Test Server
+      run: |
+        cd ./back_readmore/
+        pipenv install
+        pipenv run python manage.py test

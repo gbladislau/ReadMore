@@ -1,0 +1,23 @@
+# version: "2.16"
+services:
+
+  back:
+    build: "./back_readmore"
+    container_name: Django-back
+    environment:
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - ./back_readmore:/usr/back
+    ports:
+      - 8000:8000
+
+  front:
+    build: "./front-readmore"
+    container_name: Node-front
+    volumes:
+      - ./front-readmore:/usr/front
+      - /usr/front/node_modules
+    ports:
+      - 19000:19000
+    depends_on:
+      - back
