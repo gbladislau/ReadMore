@@ -67,7 +67,7 @@ Depois você pode optar tanto por baixar as dependencias na mão ou rodar os con
 SECRET_KEY = os.environ["SECRET_KEY"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = FalseDEBUG = False
+DEBUG = False
 ```
 
 para
@@ -77,7 +77,7 @@ para
 SECRET_KEY = "<qualquercoisa>"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = FalseDEBUG = FalseDEBUG = True
+DEBUG = True
 ```
 
 ---
