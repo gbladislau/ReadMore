@@ -120,6 +120,9 @@ export default function LoginPage() {
                 <TouchableOpacity style={styles.botaoEsqueci} onPress={() => setModalVisible(true)}>
                     <Text style={styles.esqueciText}>esqueci minha senha</Text>
                 </TouchableOpacity>
+                <TouchableOpacity style={styles.botaoEsqueci} onPress={() =>  navigation.navigate("UserHome")}>
+                    <Text style={styles.esqueciText}>entrar como convidado</Text>
+                </TouchableOpacity>
 
             </View>
             <Modal visible={modalVisible} animationType="slide" transparent={true}>
